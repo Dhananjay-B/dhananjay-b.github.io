@@ -8,10 +8,6 @@ This is my personal space where I write about cybersecurity, security engineerin
 
 - [Template](template.md)
 
-## All Posts
-
-You can find all my writings in the [`/posts`](./posts) directory.
-
 ---
 
 Made with ❤️ for the cybersecurity
