@@ -2,4 +2,4 @@
 
 ## Posts
 
-- [Template Post](template.md)
+- [Template Post](./posts/template.md)
