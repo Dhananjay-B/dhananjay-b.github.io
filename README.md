@@ -7,6 +7,7 @@ This is my personal space where I write about cybersecurity, security engineerin
 ## Posts
 
 - [Template](./posts/template.md)
+- [Software Supply Chain Risks & Security](./posts/11-04-2026-supply-chain-security.md)
 
 ---
 
