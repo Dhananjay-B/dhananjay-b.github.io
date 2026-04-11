@@ -1,3 +1,3 @@
 Sample architecture
 
-![Architecture](./assets/images/cat.webp)
+![Architecture](../assets/images/cat.webp)
