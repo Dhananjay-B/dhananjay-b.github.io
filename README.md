@@ -6,9 +6,6 @@ This is my personal space where I write about cybersecurity, security engineerin
 
 ## Posts
 
-- [Template](./posts/template.md)
-- [Software Supply Chain Risks & Security](./posts/11-04-2026-supply-chain-security.md)
+- [Your application is only as secure as the weakest link in its supply chain.](./posts/12-04-2026-supply-chain-security.md)
 
 ---
-
-Made with ❤️ for the cybersecurity
