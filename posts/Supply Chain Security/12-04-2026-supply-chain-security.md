@@ -19,7 +19,7 @@ All these components together form software supply chain.
 
 Think of it as a pipeline
 
-![Software Supply Chain](../assets/images/Software%20Supply%20Chain.png)
+![Software Supply Chain](../../assets/images/Software%20Supply%20Chain.png)
 
 ---
 
