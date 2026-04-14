@@ -5,14 +5,14 @@ AI/LLM Security • Cloud Security • DevSecOps • Security Engineering
 Hi there!  
 I write about **cybersecurity, security engineering, tools, and real-world practices** from hands-on experience.
 
-> 📂 Explore all posts in the [posts directory](https://github.com/YOUR_USERNAME/YOUR_REPO/tree/main/posts)
+> 📂 Explore all posts in the [posts directory](https://github.com/Dhananjay-B/dhananjay-b.github.io/tree/master/posts)
 
 ---
 
 ## 📝 Recent Posts
 
-- **[Your application is only as secure as the weakest link in its supply chain.](./posts/Application%20Security/12-04-2026-supply-chain-security.html)**  
-  📅 April 12, 2026 🏷️ #SupplyChainSecurity #AppSec #DevSecOps
+- [Your application is only as secure as the weakest link in its supply chain.](./posts/Supply%20Chain%20Security/12-04-2026-supply-chain-security.md)
+📅 April 12, 2026 🏷️ #SupplyChainSecurity #AppSec #DevSecOps
 
 ---
 
