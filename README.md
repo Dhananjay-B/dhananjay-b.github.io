@@ -11,6 +11,10 @@ I write about **cybersecurity, security engineering, tools, and real-world pract
 
 ## 📝 Recent Posts
 
+- **[Dependency Confusion Attack - Deep Dive & Attack Techniques](./posts/Supply-Chain-Security/15-04-2026-dependency-confusion-attack.md)**  
+  📅 April 15, 2026  
+  🏷️ #SupplyChainSecurity #AttackTechnique #DevSecOps
+
 - **[Your application is only as secure as the weakest link in its supply chain.](./posts/Supply-Chain-Security/12-04-2026-supply-chain-security.md)**  
   📅 April 12, 2026  
   🏷️ #SupplyChainSecurity #AppSec #DevSecOps
