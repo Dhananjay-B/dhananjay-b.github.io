@@ -228,8 +228,8 @@ The goal is simple: ensure that what you build, ship, and run is exactly what yo
 
 ### 📢 Share this post
 
-[![Twitter](https://img.shields.io/badge/Share-Twitter-1DA1F2?style=for-the-badge&logo=twitter)](https://twitter.com/intent/tweet?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Your%20application%20is%20only%20as%20secure%20as%20the%20weakest%20link%20in%20its%20software%20supply%20chain&url=https://onemorelens.co.in/posts/12-04-2026-supply-chain-security.html)
+[![Twitter](https://img.shields.io/badge/Share-Twitter-1DA1F2?style=for-the-badge&logo=twitter)](https://twitter.com/intent/tweet?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Your%20application%20is%20only%20as%20secure%20as%20the%20weakest%20link%20in%20its%20software%20supply%20chain&url=https://onemorelens.co.in/posts/Supply-Chain-Security/12-04-2026-supply-chain-security.html)
 
-[![LinkedIn](https://img.shields.io/badge/Share-LinkedIn-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/sharing/share-offsite/?url=https://onemorelens.co.in/posts/12-04-2026-supply-chain-security.html)
+[![LinkedIn](https://img.shields.io/badge/Share-LinkedIn-0A66C2?style=for-the-badge&logo=linkedin)](https://onemorelens.co.in/posts/Supply-Chain-Security/12-04-2026-supply-chain-security.html)
 
-[![WhatsApp](https://img.shields.io/badge/Share-WhatsApp-25D366?style=for-the-badge&logo=whatsapp)](https://api.whatsapp.com/send?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Your%20application%20is%20only%20as%20secure%20as%20the%20weakest%20link%20in%20its%20software%20supply%20chain.%20https://onemorelens.co.in/posts/12-04-2026-supply-chain-security.html)
+[![WhatsApp](https://img.shields.io/badge/Share-WhatsApp-25D366?style=for-the-badge&logo=whatsapp)](https://api.whatsapp.com/send?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Your%20application%20is%20only%20as%20secure%20as%20the%20weakest%20link%20in%20its%20software%20supply%20chain.%20https://onemorelens.co.in/posts/Supply-Chain-Security/12-04-2026-supply-chain-security.html)
