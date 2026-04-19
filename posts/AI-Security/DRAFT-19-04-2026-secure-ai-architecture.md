@@ -14,6 +14,14 @@ We will not go deep into individual vulnerabilities or detailed implementation o
 
 > AI security is not just about securing models - it is about securing the entire system around them.
 
+## AI Architecture
+
+Below is generic AI infrastructure system design. It can vary largly for your organization based on your use of AI, maturity of AI adoption and complexity. But this diagram gives you good idea of what typical AI system looks like. We are not talking about low level system component like multi agent systems and A2A communications. This is to give you organization wide idea of security controls.
+
+![Secure AI Architecture](../../assets/images/Secure-AI-Architecture.png)
+
+Below we will discuss different security controls and where they fit in different layers of AI infrastructure as shown in above diagram.
+
 ## 🛡️ Core Security Pillars for AI Architecture
 
 ## 1. 🔐 Identity & Access Management (IAM)
