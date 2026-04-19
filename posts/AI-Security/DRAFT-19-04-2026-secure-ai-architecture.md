@@ -2,17 +2,17 @@
 
 ## Introduction
 
-AI systems are not just another layer on top of existing applications — they introduce **new attack surfaces, new trust boundaries, and new failure modes**.
+AI systems are not just another layer on top of existing applications - they introduce **new attack surfaces, new trust boundaries, and new failure modes**.
 
-While many traditional security controls (like application security, authentication, and network security) still apply, they are **not sufficient on their own**. AI systems require additional controls to handle risks such as prompt injection, data leakage, model abuse, and insecure tool usage.
+While many traditional security controls (like application security, authentication, and network security) still apply, they are not sufficient on their own. AI systems require additional controls to handle risks such as prompt injection, data leakage, model abuse, and insecure tool usage.
 
-In this post, we will take a **practical architecture-first approach** to AI security. Using a generic AI system architecture, we will map **what security controls should exist at each layer** — from the client and API layer to models, data stores, and external tools.
+In this post, we will take a practical architecture-first approach to AI security. Using a generic AI system architecture, we will map what security controls should exist at each layer - from the client and API layer to models, data stores, and external tools.
 
-The goal is not to design a perfect or one-size-fits-all architecture. Every organization’s AI stack differs based on its use cases, scale, and maturity. Instead, this post focuses on identifying **common components in modern AI systems** and understanding **where and how security controls should be applied**.
+The goal is not to design a perfect or one-size-fits-all architecture. Every organization’s AI stack differs based on its use cases, scale, and maturity. Instead, this post focuses on identifying common components in modern AI systems and understanding where and how security controls should be applied.
 
-We will not go deep into individual vulnerabilities or detailed implementation of each control. Instead, the focus is on **building a clear mental model** of AI security — so you know *what to secure, and where to place those controls*.
+We will not go deep into individual vulnerabilities or detailed implementation of each control. Instead, the focus is on **building a clear mental model** of AI security - so you know *what to secure, and where to place those controls*.
 
-> AI security is not just about securing models — it is about securing the entire system around them.
+> AI security is not just about securing models - it is about securing the entire system around them.
 
 ## 🛡️ Core Security Pillars for AI Architecture
 
@@ -20,9 +20,9 @@ We will not go deep into individual vulnerabilities or detailed implementation o
 
 The first thing we need to get right in any AI system (or any information system for that matter) is **who can access what**.
 
-At a glance, IAM might feel like a solved problem — something we already handle in traditional applications using authentication and authorization. But in AI systems, the surface area expands significantly. It’s no longer just about users accessing APIs. We now have **models, vector databases, tools (MCP), and internal services** all interacting with each other.
+At a glance, IAM might feel like a solved problem - something we already handle in traditional applications using authentication and authorization. But in AI systems, the surface area expands significantly. It’s no longer just about users accessing APIs. We now have models, vector databases, tools (MCP), and internal services all interacting with each other.
 
-We need to make sure that **every interaction in the system is authenticated and explicitly authorized** — not just user-to-app, but also service-to-service and model-to-tool.
+We need to make sure that every interaction in the system is authenticated and explicitly authorized - not just user-to-app, but also service-to-service and model-to-tool.
 
 ---
 
@@ -30,11 +30,11 @@ We need to make sure that **every interaction in the system is authenticated and
 
 At a foundational level, we still rely on traditional controls:
 
-- **Authentication** — verifying identity using mechanisms like OAuth, JWT, API keys  
-- **Authorization** — enforcing what actions are allowed (RBAC/ABAC)  
-- **Service-to-service identity** — ensuring backend services and pipelines are also authenticated  
+- **Authentication** - verifying identity using mechanisms like OAuth, JWT, API keys  
+- **Authorization** - enforcing what actions are allowed (RBAC/ABAC)  
+- **Service-to-service identity** - ensuring backend services and pipelines are also authenticated  
 
-These controls don’t change — but **where and how we apply them becomes more critical in AI systems**.
+These controls don’t change - but where and how we apply them becomes more critical in AI systems.
 
 ---
 
@@ -52,7 +52,7 @@ For example:
 - A high-cost or sensitive model (e.g., internal fine-tuned model) should be restricted  
 - Certain models may have access to sensitive enterprise data  
 
-We need to enforce **which identities can invoke which models**, and under what conditions.
+We need to enforce which identities can invoke which models, and under what conditions.
 
 ---
 
@@ -65,7 +65,7 @@ Modern AI systems allow models to call tools:
 - Access files  
 - Trigger APIs  
 
-If we don’t control this properly, the model effectively becomes an **unbounded executor**.
+If we don’t control this properly, the model effectively becomes an unbounded executor.
 
 We need to make sure:
 - Tools are **explicitly allowlisted**  
@@ -89,29 +89,29 @@ This means static RBAC is often not enough. In many cases, we need:
 
 ---
 
-IAM in AI systems is not just about securing endpoints — it’s about **securing interactions across the entire decision-making pipeline**. Getting IAM right ensures that even if a prompt is manipulated or a model behaves unexpectedly, **its ability to cause damage is still constrained**. If you don’t control access at the model and tool level, you’re not really controlling your system.
+IAM in AI systems is not just about securing endpoints - it’s about securing interactions across the entire decision-making pipeline. Getting IAM right ensures that even if a prompt is manipulated or a model behaves unexpectedly, its ability to cause damage is still constrained. If you don’t control access at the model and tool level, you’re not really controlling your system.
 
 ### 📍 Where IAM Fits in AI Architecture
 
-Identity & Access Management in AI systems is not limited to just the API layer — it needs to be enforced **across multiple layers of the architecture**.
+Identity & Access Management in AI systems is not limited to just the API layer - it needs to be enforced across multiple layers of the architecture.
 
 We start at the **client and API layer**, where users are authenticated using mechanisms like JWT or OAuth. This is the first gate, ensuring only valid users can access the system.
 
-But the real shift happens at the **application (or orchestration) layer**. Here, we are not just validating identity — we are deciding *what the user is allowed to do*. This includes controlling which models can be invoked, whether tools should be called, and applying context-aware authorization based on the prompt.
+But the real shift happens at the **application (or orchestration) layer**. Here, we are not just validating identity - we are deciding *what the user is allowed to do*. This includes controlling which models can be invoked, whether tools should be called, and applying context-aware authorization based on the prompt.
 
 As the request moves further, IAM must also be enforced at the **model and tooling layers**. Not every service should be able to call every model, and more importantly, models should not have unrestricted access to tools like databases or external APIs. Access needs to be tightly scoped and explicitly allowed.
 
 Finally, at the **data layer**, access control ensures that only permitted data is retrieved and returned. This becomes critical in RAG systems, where data access is dynamic and driven by user input.
 
-> In AI systems, IAM is not a single checkpoint — it is continuously enforced as the request flows through each layer.
+> In AI systems, IAM is not a single checkpoint - it is continuously enforced as the request flows through each layer.
 
 ## 2. 🧾 Data Security & Privacy
 
-In AI systems, data is not just stored and retrieved — it is **continuously processed, transformed, and even generated**. This makes data security and privacy far more complex than in traditional applications.
+In AI systems, data is not just stored and retrieved - it is continuously processed, transformed, and even generated. This makes data security and privacy far more complex than in traditional applications.
 
-We need to protect data across its entire lifecycle — **at rest, in transit, and in use**. This includes applying encryption for stored data and securing communication channels using TLS. But beyond these basics, we also need to think about how sensitive data is handled inside the system.
+We need to protect data across its entire lifecycle - at rest, in transit, and in use. This includes applying encryption for stored data and securing communication channels using TLS. But beyond these basics, we also need to think about how sensitive data is handled inside the system.
 
-Techniques like **data masking, redaction, and classification** become important, especially when dealing with PII or confidential business data. Unlike traditional systems, where data exposure is usually tied to APIs or databases, AI systems introduce new risks — particularly through prompts and model responses.
+Techniques like data masking, redaction, and classification become important, especially when dealing with PII or confidential business data. Unlike traditional systems, where data exposure is usually tied to APIs or databases, AI systems introduce new risks - particularly through prompts and model responses.
 
 User inputs may contain sensitive information, and models can unintentionally expose it back in responses. In some cases, models may even leak information from training data or previously seen context if not properly controlled.
 
@@ -123,13 +123,13 @@ Data security needs to be enforced at multiple layers.
 
 At the **API layer**, we ensure secure communication (TLS) and treat incoming prompts as potentially sensitive input.
 
-As the request moves into the **application and model layers**, the focus shifts to preventing **data leakage through prompts and outputs**. This is where input validation, redaction, and output filtering play a key role.
+As the request moves into the **application and model layers**, the focus shifts to preventing data leakage through prompts and outputs. This is where input validation, redaction, and output filtering play a key role.
 
-In **RAG systems**, the **data layer becomes especially critical**. We need to ensure that only authorized and relevant data is retrieved from vector databases or document stores, avoiding unintended exposure of sensitive information.
+In RAG systems, the **data layer becomes especially critical**. We need to ensure that only authorized and relevant data is retrieved from vector databases or document stores, avoiding unintended exposure of sensitive information.
 
-Finally, any stored data — including logs, embeddings, and training datasets — must be protected using encryption and strict access controls. Logs, in particular, often contain full prompts and responses and should be handled carefully.
+Finally, any stored data - including logs, embeddings, and training datasets - must be protected using encryption and strict access controls. Logs, in particular, often contain full prompts and responses and should be handled carefully.
 
-> In AI systems, data is constantly in motion — securing how it flows is just as important as securing where it is stored.
+> In AI systems, data is constantly in motion - securing how it flows is just as important as securing where it is stored.
 
 ## 3. 🧠 Model Security
 
@@ -137,15 +137,15 @@ Finally, any stored data — including logs, embeddings, and training datasets �
 
 This is where AI systems truly diverge from traditional applications.
 
-In most systems, we focus on securing inputs, APIs, and data stores. But in AI systems, the **model itself becomes an attack surface** — not because it has vulnerabilities in the traditional sense, but because it can be **manipulated through inputs**.
+In most systems, we focus on securing inputs, APIs, and data stores. But in AI systems, the **model itself becomes an attack surface** - not because it has vulnerabilities in the traditional sense, but because it can be manipulated through inputs.
 
-Unlike a typical backend service, an LLM does not strictly “execute logic” — it **interprets instructions probabilistically**. That means if an attacker can influence the input effectively, they can influence the model’s behavior.
+Unlike a typical backend service, an LLM does not strictly “execute logic” - it interprets instructions probabilistically. That means if an attacker can influence the input effectively, they can influence the model’s behavior.
 
 ---
 
 ### What Model Security Covers
 
-At its core, model security is about defending against attacks that **manipulate model behavior**.
+At its core, model security is about defending against attacks that manipulate model behavior.
 
 #### Prompt Injection
 
@@ -175,7 +175,7 @@ This often involves:
 - Multi-step manipulation  
 - Encoding or obfuscation  
 
-The goal is to **break the model’s alignment and safety boundaries**.
+The goal is to break the model’s alignment and safety boundaries.
 
 ---
 
@@ -207,7 +207,7 @@ At the **model layer**, we rely on:
 
 ### Key Controls in Model Security
 
-To make models safe in real systems, we need layered defenses — typically implemented via an **LLM gateway or guardrail system**
+To make models safe in real systems, we need layered defenses - typically implemented via an LLM gateway or guardrail system
 
 - **System Prompt Protection**  
   The system prompt defines the model’s behavior. It should be carefully designed, hidden from users, and protected from being overridden.
@@ -226,13 +226,13 @@ To make models safe in real systems, we need layered defenses — typically impl
 
 ---
 
-In traditional systems, user input is validated and then processed deterministically. In AI systems, **input directly influences behavior**. This makes model security less about patching vulnerabilities and more about **controlling behavior under adversarial input**. Model security is about ensuring that even when faced with malicious or cleverly crafted inputs, the system behaves **predictably, safely, and within defined boundaries**.
+In traditional systems, user input is validated and then processed deterministically. In AI systems, input directly influences behavior. This makes model security less about patching vulnerabilities and more about controlling behavior under adversarial input. Model security is about ensuring that even when faced with malicious or cleverly crafted inputs, the system behaves predictably, safely, and within defined boundaries**.
 
 ## 4. 🔗 Supply Chain & Dependency Security
 
-We’ve already covered the fundamentals of [software supply chain security in a previous post](https://onemorelens.co.in/posts/Supply-Chain-Security/12-04-2026-supply-chain-security.html) — how dependencies, build systems, and artifacts can be abused to inject malicious code into applications.
+We’ve already covered the fundamentals of [software supply chain security in a previous post](https://onemorelens.co.in/posts/Supply-Chain-Security/12-04-2026-supply-chain-security.html) - how dependencies, build systems, and artifacts can be abused to inject malicious code into applications.
 
-AI systems build on top of that same foundation, but introduce **new components into the supply chain** — and with them, new risks.
+AI systems build on top of that same foundation, but introduce new components into the supply chain - and with them, new risks.
 
 In addition to traditional dependencies like application libraries and container images, AI systems rely on:
 - Pretrained models (often pulled from platforms like HuggingFace)  
@@ -240,7 +240,7 @@ In addition to traditional dependencies like application libraries and container
 - AI frameworks and orchestration libraries (e.g., LangChain)  
 - External tools, plugins, and APIs (MCP ecosystem)  
 
-Each of these becomes part of your **extended trust boundary**.
+Each of these becomes part of your extended trust boundary.
 
 ---
 
@@ -255,7 +255,7 @@ In AI systems, we need to think beyond code.
 
 #### 🧠 Model Supply Chain
 
-Models are no longer just code — they are **learned artifacts**.
+Models are no longer just code - they are learned artifacts.
 
 If a pretrained model is:
 - Backdoored  
@@ -273,8 +273,7 @@ Embeddings are often treated as “just data”, but they can be abused.
 - Poisoned documents : generate malicious embeddings  
 - Retrieved during RAG : influence model output  
 
-This creates a subtle but powerful attack vector:
-> manipulating what the model *knows*, not just what it executes.
+This creates a subtle but powerful attack vector: manipulating what the model *knows*, not just what it executes.
 
 ---
 
@@ -287,7 +286,7 @@ These tools:
 - Access data (files system)
 - Integrate with third-party systems (downstream systems)
 
-If a tool or plugin is compromised, it becomes an **execution vector inside your AI system**.
+If a tool or plugin is compromised, it becomes an execution vector inside your AI system.
 
 ---
 
@@ -311,17 +310,17 @@ At the **tooling layer**, we must ensure:
 
 ---
 
-In AI systems, you are not just trusting code — you are trusting models, data, and external capabilities.
+In AI systems, you are not just trusting code - you are trusting models, data, and external capabilities.
 
-Every component you pull into your system — whether it’s a library, a model, or an embedding pipeline — becomes part of your **attack surface**. Securing the AI supply chain means questioning that trust at every step.
+Every component you pull into your system - whether it’s a library, a model, or an embedding pipeline - becomes part of your attack surface. Securing the AI supply chain means questioning that trust at every step.
 
 ---
 
 ## 5. ⚙️ Application & API Security
 
-Application and API security remains a foundational pillar — even in AI systems.
+Application and API security remains a foundational pillar - even in AI systems.
 
-At its core, we still need to implement standard controls such as **input validation, authentication, authorization, rate limiting, and secure API design**. These are well-established practices, and rather than reinventing them, we should ensure they are **consistently and correctly applied** across AI services.
+At its core, we still need to implement standard controls such as **input validation, authentication, authorization, rate limiting, and secure API design**. These are well-established practices, and rather than reinventing them, we should ensure they are consistently and correctly applied across AI services.
 
 If you’re already familiar with traditional AppSec controls, most of them still apply here.
 
@@ -331,12 +330,12 @@ If you’re already familiar with traditional AppSec controls, most of them stil
 
 The key difference is in **what we consider as “input”**.
 
-In AI systems, the primary input is the **prompt** — and unlike structured API inputs, prompts are:
+In AI systems, the primary input is the **prompt** - and unlike structured API inputs, prompts are:
 - Unstructured  
 - User-controlled  
 - Capable of influencing system behavior  
 
-This makes prompts a **first-class attack vector**.
+This makes prompts a first-class attack vector.
 
 We need to treat them with the same rigor as any other untrusted input:
 - Validate where possible  
@@ -347,7 +346,7 @@ We need to treat them with the same rigor as any other untrusted input:
 
 ### LLM Endpoint Abuse
 
-Another AI-specific concern is the **abuse of LLM endpoints**.
+Another AI-specific concern is the abuse of LLM endpoints.
 
 Since LLM APIs are:
 - Expensive  
@@ -359,28 +358,28 @@ Attackers may attempt:
 - Automated misuse  
 - Prompt-based probing for weaknesses  
 
-This makes **rate limiting, quota enforcement, and usage monitoring** critical.
+This makes rate limiting, quota enforcement, and usage monitoring critical.
 
 ---
 
-AI systems don’t replace traditional AppSec — they extend it. The fundamentals still apply. The difference is that **inputs are more powerful, and their impact is less predictable**, which makes enforcing these controls even more important.
+AI systems don’t replace traditional AppSec - they extend it. The fundamentals still apply. The difference is that inputs are more powerful, and their impact is less predictable, which makes enforcing these controls even more important.
 
 ---
 
 ## 6. 📊 Observability, Logging & Monitoring
 
-You can’t secure what you can’t see — and in AI systems, visibility becomes even more critical.
+You can’t secure what you can’t see - and in AI systems, visibility becomes even more critical.
 
-Unlike traditional applications where behavior is deterministic, AI systems are **dynamic and probabilistic**. The same input can lead to different outputs, and small changes in prompts can significantly alter behavior. This makes observability not just useful, but essential for understanding and securing the system.
+Unlike traditional applications where behavior is deterministic, AI systems are dynamic and probabilistic. The same input can lead to different outputs, and small changes in prompts can significantly alter behavior. This makes observability not just useful, but essential for understanding and securing the system.
 
 ---
 
 ### What This Covers
 
 At a foundational level, we rely on familiar practices:
-- **Logging** — capturing requests, responses, and system activity  
-- **Tracing** — tracking how a request flows across services  
-- **Monitoring & Alerting** — detecting anomalies and triggering alerts  
+- **Logging** - capturing requests, responses, and system activity  
+- **Tracing** - tracking how a request flows across services  
+- **Monitoring & Alerting** - detecting anomalies and triggering alerts  
 
 These are standard practices, but in AI systems, we need to extend them further.
 
@@ -388,7 +387,7 @@ These are standard practices, but in AI systems, we need to extend them further.
 
 ### What Changes in AI Systems
 
-The most important addition is **prompt and response visibility**.
+The most important addition is prompt and response visibility.
 
 We need to log:
 - User prompts  
@@ -396,7 +395,7 @@ We need to log:
 - Model responses  
 - Tool calls and their outputs  
 
-This creates an **audit trail of model behavior**, which is critical for:
+This creates an audit trail of model behavior, which is critical for:
 - Debugging unexpected outputs  
 - Investigating incidents  
 - Understanding how decisions were made  
@@ -419,23 +418,23 @@ We need to actively detect:
 - Sudden spikes in usage  
 - Repeated attempts to bypass controls  
 
-This is where **anomaly detection and behavioral monitoring** come into play.
+This is where anomaly detection and behavioral monitoring come into play.
 
 ---
 
 ### 📍 Where It Fits in the Architecture
 
-Observability should be integrated **across all layers**:
+Observability should be integrated across all layers:
 - API layer : request and usage logs  
 - Orchestration layer : prompt construction and tool calls  
 - Model layer : inputs and outputs  
 - Data layer : access and retrieval logs  
 
-The goal is to have **end-to-end visibility of the entire request flow**.
+The goal is to have end-to-end visibility of the entire request flow.
 
 ---
 
-In AI systems, logs are not just for debugging — they are your primary defense for detecting misuse and understanding model behavior Without proper observability, you are essentially operating a system where **decisions are being made without visibility** — which is a significant risk.
+In AI systems, logs are not just for debugging - they are your primary defense for detecting misuse and understanding model behavior Without proper observability, you are essentially operating a system where decisions are being made without visibility - which is a significant risk.
 
 ---
 
@@ -443,23 +442,23 @@ In AI systems, logs are not just for debugging — they are your primary defense
 
 ## 7. 🔌 Runtime & Infrastructure Security
 
-In AI systems, runtime security becomes especially important because models are no longer just serving responses — they can **trigger actions, call tools, and interact with external systems**.
+In AI systems, runtime security becomes especially important because models are no longer just serving responses - they can trigger actions, call tools, and interact with external systems.
 
-This introduces a new risk: **untrusted or semi-trusted execution paths** inside your infrastructure.
+This introduces a new risk: untrusted or semi-trusted execution paths inside your infrastructure.
 
-One practical way to control this is through **containerization and isolation**.
+One practical way to control this is through containerization and isolation.
 
 For example, when an LLM invokes a tool (e.g., executes code, queries a dataset, or calls an external API), we don’t want that tool to have unrestricted access to:
 - Internal services  
 - Sensitive data  
 - The broader network  
 
-Running such tools inside **isolated containers or sandboxes** allows us to:
+Running such tools inside isolated containers or sandboxes allows us to:
 - Restrict network access (e.g., no outbound internet)  
 - Limit file system visibility  
 - Enforce resource constraints  
 
-In simple terms, even if the model is tricked into doing something malicious, the **blast radius is contained**.
+In simple terms, even if the model is tricked into doing something malicious, the blast radius is contained.
 
 This is particularly important for:
 - Code execution tools  
@@ -475,9 +474,9 @@ Beyond containers, network-level controls also play a role:
 
 ## 8. 🧪 Secure AI Lifecycle (MLSecOps)
 
-AI security doesn’t stop at runtime — it extends into how models are **built, evaluated, and deployed**.
+AI security doesn’t stop at runtime - it extends into how models are built, evaluated, and deployed.
 
-Unlike traditional applications, models are **trained artifacts**, which means their behavior is influenced by data, not just code.
+Unlike traditional applications, models are trained artifacts, which means their behavior is influenced by data, not just code.
 
 ---
 
@@ -499,7 +498,7 @@ This makes it important to:
 
 ### Evaluation & Testing
 
-Before deploying a model, we need to evaluate it not just for accuracy, but for **security behavior**.
+Before deploying a model, we need to evaluate it not just for accuracy, but for security behavior.
 
 This includes:
 - Testing for prompt injection resilience  
@@ -515,13 +514,13 @@ The deployment pipeline should ensure that:
 - Model versions are tracked and verified  
 - Changes are auditable  
 
-This is similar to traditional CI/CD, but with an added focus on **model integrity and behavior consistency**.
+This is similar to traditional CI/CD, but with an added focus on model integrity and behavior consistency.
 
 ---
 
-In AI systems, security is not just about protecting infrastructure — it’s about ensuring the model itself is trustworthy throughout its lifecycle.
+In AI systems, security is not just about protecting infrastructure - it’s about ensuring the model itself is trustworthy throughout its lifecycle.
 
-From training to deployment, every stage introduces opportunities for compromise. Securing the lifecycle ensures that what you deploy behaves **as intended, even under adversarial conditions**.
+From training to deployment, every stage introduces opportunities for compromise. Securing the lifecycle ensures that what you deploy behaves as intended, even under adversarial conditions.
 
 ### 📢 Share this post
 
