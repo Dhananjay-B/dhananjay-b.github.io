@@ -11,6 +11,10 @@ I write about **cybersecurity, security engineering, tools, and real-world pract
 
 ## 📝 Recent Posts
 
+- **[Secure AI Architecture: Mapping Security Controls Across LLM Systems](./posts/AI-Security/19-04-2026-secure-ai-architecture.md)**  
+  📅 April 19, 2026  
+  🏷️ #AISecurity #LLMSecurity #AppSec #SecurityEngineering
+
 - **[Dependency Confusion Attack - Deep Dive & Attack Techniques](./posts/Supply-Chain-Security/15-04-2026-dependency-confusion-attack.md)**  
   📅 April 15, 2026  
   🏷️ #SupplyChainSecurity #AttackTechnique #DevSecOps
