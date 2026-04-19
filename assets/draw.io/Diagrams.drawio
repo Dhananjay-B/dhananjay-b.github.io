@@ -125,20 +125,6 @@
         <mxCell id="OXCh9k_zTblLynL5TjNb-1" parent="1" style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;fillColor=#FF6A00;strokeColor=none;shape=mxgraph.alibaba_cloud.cloud_auth;" value="" vertex="1">
           <mxGeometry height="70" width="76.93" x="399" y="57" as="geometry" />
         </mxCell>
-        <mxCell id="ipUDUDNRQOqIp3k6lA7Q-48" edge="1" parent="1" source="AQ1BJasPWG9Lh6qWK3hW-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="ipUDUDNRQOqIp3k6lA7Q-23">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1219" y="170" />
-              <mxPoint x="1359" y="170" />
-              <mxPoint x="1359" y="116" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="ipUDUDNRQOqIp3k6lA7Q-49" connectable="0" parent="ipUDUDNRQOqIp3k6lA7Q-48" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;DLP / Safe Content&lt;/font&gt;" vertex="1">
-          <mxGeometry relative="1" x="-0.0136" y="-3" as="geometry">
-            <mxPoint as="offset" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="AQ1BJasPWG9Lh6qWK3hW-1" parent="1" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.customer_gateway;fillColor=#F58534;gradientColor=none;" value="" vertex="1">
           <mxGeometry height="72" width="69" x="1185" y="233" as="geometry" />
         </mxCell>
@@ -184,7 +170,7 @@
         <mxCell id="7xPJpSdUtyXmmayJLh0p-18" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;Model&lt;/font&gt;" vertex="1">
           <mxGeometry height="30" width="73" x="1608.5" y="319" as="geometry" />
         </mxCell>
-        <mxCell id="7xPJpSdUtyXmmayJLh0p-19" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+        <mxCell id="7xPJpSdUtyXmmayJLh0p-19" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="BScB1Pvg_0cC9fGHQDvY-8">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="1433" y="280" as="sourcePoint" />
             <mxPoint x="1639.2622678595635" y="279.5" as="targetPoint" />
@@ -307,6 +293,20 @@
         </mxCell>
         <mxCell id="2Ci6pdem8dg1ecX1lOUd-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;AI Application&lt;/font&gt;" vertex="1">
           <mxGeometry height="30" width="101" x="138.5" y="348" as="geometry" />
+        </mxCell>
+        <mxCell id="2Ci6pdem8dg1ecX1lOUd-2" edge="1" parent="1" source="AQ1BJasPWG9Lh6qWK3hW-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.451;entryY=0.967;entryDx=0;entryDy=0;entryPerimeter=0;" target="ipUDUDNRQOqIp3k6lA7Q-23">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1220" y="185" />
+              <mxPoint x="1337" y="185" />
+              <mxPoint x="1337" y="114" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2Ci6pdem8dg1ecX1lOUd-3" connectable="0" parent="2Ci6pdem8dg1ecX1lOUd-2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;DLP / Content Safety&lt;/font&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.3796" y="2" as="geometry">
+            <mxPoint x="36" y="1" as="offset" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
