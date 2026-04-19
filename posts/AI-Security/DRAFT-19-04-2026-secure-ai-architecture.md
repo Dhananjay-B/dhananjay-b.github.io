@@ -1,4 +1,4 @@
-# Secure AI Architecture
+# Secure AI Architecture: Mapping Security Controls Across LLM Systems
 
 ## Introduction
 
@@ -16,7 +16,7 @@ We will not go deep into individual vulnerabilities or detailed implementation o
 
 ## AI Architecture
 
-Below is generic AI infrastructure system design. It can vary largly for your organization based on your use of AI, maturity of AI adoption and complexity. But this diagram gives you good idea of what typical AI system looks like. We are not talking about low level system component like multi agent systems and A2A communications. This is to give you organization wide idea of security controls.
+Below is generic AI infrastructure system design. It can vary largely for your organization based on your use of AI, maturity of AI adoption and complexity. But this diagram gives you good idea of what typical AI system looks like.We are not focusing on low-level system components like multi-agent systems and A2A communications. This is to give you organization wide idea of security controls.
 
 ![Secure AI Architecture](../../assets/images/Secure-AI-Architecture.png)
 
@@ -82,7 +82,7 @@ We need to make sure:
 
 > The LLM should not be able to call everything just because it can.
 
-At the technical level, it's not a model who actually calls MCP servers(tools) but it ask application backend to make that call.
+At the technical level, it’s not the model that directly calls MCP servers (tools), but rather the application backend executes those calls on its behalf.
 
 ---
 
@@ -234,7 +234,7 @@ To make models safe in real systems, we need layered defenses - typically implem
 
 ---
 
-In traditional systems, user input is validated and then processed deterministically. In AI systems, input directly influences behavior. This makes model security less about patching vulnerabilities and more about controlling behavior under adversarial input. Model security is about ensuring that even when faced with malicious or cleverly crafted inputs, the system behaves predictably, safely, and within defined boundaries**.
+In traditional systems, user input is validated and then processed deterministically. In AI systems, input directly influences behavior. This makes model security less about patching vulnerabilities and more about controlling behavior under adversarial input. Model security is about ensuring that even when faced with malicious or cleverly crafted inputs, the system behaves predictably, safely, and within defined boundaries.
 
 ## 4. 🔗 Supply Chain & Dependency Security
 
@@ -278,8 +278,8 @@ If a pretrained model is:
 
 Embeddings are often treated as “just data”, but they can be abused.
 
-- Poisoned documents : generate malicious embeddings  
-- Retrieved during RAG : influence model output  
+- Poisoned documents: generate malicious embeddings  
+- Retrieved during RAG: influence model output  
 
 This creates a subtle but powerful attack vector: manipulating what the model *knows*, not just what it executes.
 
@@ -433,16 +433,16 @@ This is where anomaly detection and behavioral monitoring come into play.
 ### 📍 Where It Fits in the Architecture
 
 Observability should be integrated across all layers:
-- API layer : request and usage logs  
-- Orchestration layer : prompt construction and tool calls  
-- Model layer : inputs and outputs  
-- Data layer : access and retrieval logs  
+- API layer: request and usage logs  
+- Orchestration layer: prompt construction and tool calls  
+- Model layer: inputs and outputs  
+- Data layer: access and retrieval logs  
 
 The goal is to have end-to-end visibility of the entire request flow.
 
 ---
 
-In AI systems, logs are not just for debugging - they are your primary defense for detecting misuse and understanding model behavior Without proper observability, you are essentially operating a system where decisions are being made without visibility - which is a significant risk.
+In AI systems, logs are not just for debugging - they are your primary defense for detecting misuse and understanding model behavior. Without proper observability, you are essentially operating a system where decisions are being made without visibility - which is a significant risk.
 
 ---
 
