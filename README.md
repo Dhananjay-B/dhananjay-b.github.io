@@ -1,5 +1,3 @@
-# 👨‍💻 Dhananjay Bhujbal
-
 AI/LLM Security • Cloud Security • DevSecOps • Security Engineering
 
 Hi there!  
