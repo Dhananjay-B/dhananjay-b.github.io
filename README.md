@@ -36,6 +36,21 @@ I write about **cybersecurity, security engineering, tools, and real-world pract
 
 ---
 
+## 🧪 Checkout My Project - PostQ
+
+### 🔐 PostQ - Post-Quantum Risk Assessment Tool
+
+[PostQ](https://github.com/Dhananjay-B/PostQ) is a tool for discovering and inventorying cryptographic assets across a network - including TLS/HTTPS endpoints, SSH services, and email infrastructure.
+
+It focuses on evaluating these assets from a **post-quantum risk perspective**, helping identify:
+- Quantum-vulnerable cryptographic algorithms  
+- Weak or outdated configurations  
+- Overall cryptographic exposure across systems  
+
+The goal is to move beyond simple scanning and provide a **policy-driven risk assessment layer** for post-quantum readiness.
+
+> Not just discovery - but understanding cryptographic risk in a post-quantum world.
+
 ## 📬 Connect
 
 - [LinkedIn](https://www.linkedin.com/in/dhananjay-bhujbal-852260202/)
