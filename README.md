@@ -9,6 +9,10 @@ I write about **cybersecurity, security engineering, tools, and real-world pract
 
 ## 📝 Recent Posts
 
+- **[Post-Quantum Cryptography: Where We Stand Today](./posts/Security-Engineering/26-04-2026-State-Of-Quantum-Cryptography.md)**  
+  📅 April 26, 2026  
+  🏷️ #PostQuantum #Cryptography #SecurityEngineering #CyberSecurity
+
 - **[Secure AI Architecture: Mapping Security Controls Across LLM Systems](./posts/AI-Security/19-04-2026-secure-ai-architecture.md)**  
   📅 April 19, 2026  
   🏷️ #AISecurity #LLMSecurity #AppSec #SecurityEngineering
