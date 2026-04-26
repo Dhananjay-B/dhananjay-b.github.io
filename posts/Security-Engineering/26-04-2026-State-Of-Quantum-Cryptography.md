@@ -1,5 +1,3 @@
-<div style="font-family: Georgia, 'Times New Roman', serif; line-height: 1.8; font-size: 18px;">
-
 # Post-Quantum Cryptography: Where We Stand Today
 
 Quantum cryptography and post-quantum cryptography (PQC) are vast topics on their own. This post is intended to be a **high-level introduction**.
@@ -180,5 +178,3 @@ In the end, post-quantum cryptography is not just about future-proofing systems 
 [![LinkedIn](https://img.shields.io/badge/Share-LinkedIn-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/sharing/share-offsite/?url=https://onemorelens.co.in/posts/Security-Engineering/26-04-2026-State-Of-Quantum-Cryptography.html)
 
 [![WhatsApp](https://img.shields.io/badge/Share-WhatsApp-25D366?style=for-the-badge&logo=whatsapp)](https://api.whatsapp.com/send?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Post-Quantum%20Cryptography%3A%20Where%20We%20Stand%20Today.%20https://onemorelens.co.in/posts/Security-Engineering/26-04-2026-State-Of-Quantum-Cryptography.html)
-
-</div>
