@@ -9,6 +9,10 @@ I write about **cybersecurity, security engineering, tools, and real-world pract
 
 ## 📝 Recent Posts
 
+- **[Attack Simulation - Dependency Confusion Attack](./posts/Labs/01-05-2026-Dependency-Confusion-Attack-Simulation.md)**  
+  📅 May 1, 2026  
+  🏷️ #SupplyChainSecurity #DependencyConfusion #AppSec #SecurityEngineering #AttackSimulation
+
 - **[Post-Quantum Cryptography: Where We Stand Today](./posts/Security-Engineering/26-04-2026-State-Of-Quantum-Cryptography.md)**  
   📅 April 26, 2026  
   🏷️ #PostQuantum #Cryptography #SecurityEngineering #CyberSecurity
