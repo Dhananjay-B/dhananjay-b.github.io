@@ -242,4 +242,4 @@ That is where dependency confusion becomes dangerous.
 
 ## Lab Repository
 
-https://github.com/Dhananjay-B/dependency-confusion-attack-lab
+[https://github.com/Dhananjay-B/dependency-confusion-attack-lab](https://github.com/Dhananjay-B/dependency-confusion-attack-lab)
