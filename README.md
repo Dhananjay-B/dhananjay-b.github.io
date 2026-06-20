@@ -9,6 +9,10 @@ I write about **cybersecurity, security engineering, tools, and real-world pract
 
 ## 📝 Recent Posts
 
+- **[KubeCon + CloudNativeCon India 2026: Notes and Learnings](./posts/Container-Security/20-06-2026-kubecon-cloudnativecon-mumbai.md)**  
+  📅 June 20, 2026  
+  🏷️ #KubeCon #CloudNativeCon #Kubernetes #AI #PlatformEngineering #SupplyChainSecurity #CloudNative
+
 - **[Attack Simulation - Dependency Confusion Attack](./posts/Labs/01-05-2026-Dependency-Confusion-Attack-Simulation.md)**  
   📅 May 1, 2026  
   🏷️ #SupplyChainSecurity #DependencyConfusion #AppSec #SecurityEngineering #AttackSimulation
