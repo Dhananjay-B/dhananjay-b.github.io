@@ -1,4 +1,4 @@
-# Knowing AWS Services is not enough. You need a mental map.
+# A Mental Map to Build Secure AWS Architectures.
 
 > You can know IAM, KMS, VPC, GuardDuty, CloudTrail, WAF, and dozens of other AWS services - and still struggle when you have to design a secure architecture or assess a real-world scenario.
 > ### The problem is often not knowledge. It is knowing how to connect the knowledge.
