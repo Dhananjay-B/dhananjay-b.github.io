@@ -9,6 +9,10 @@ I write about **cybersecurity, security engineering, tools, and real-world pract
 
 ## 📝 Recent Posts
 
+- **[Secure AWS Architecture: A Mental Map for Real-World Scenarios](./posts/Cloud-Security/10-08-2026-secure-aws-architecture-mental-map.md)**  
+  📅 August 10, 2026  
+  🏷️ #AWS #CloudSecurity #AWSArchitecture #SecurityEngineering #CloudSecurityArchitecture
+
 - **[KubeCon + CloudNativeCon India 2026: Notes and Learnings](./posts/Container-Security/20-06-2026-kubecon-cloudnativecon-mumbai.md)**  
   📅 June 20, 2026  
   🏷️ #KubeCon #CloudNativeCon #Kubernetes #AI #PlatformEngineering #SupplyChainSecurity #CloudNative
