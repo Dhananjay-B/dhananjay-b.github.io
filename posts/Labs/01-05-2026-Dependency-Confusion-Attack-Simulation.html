@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Attack Simulation - Dependency Confusion Attack">
+<title>Attack Simulation - Dependency Confusion Attack | Dhananjay Bhujbal</title>
+
+<link rel="stylesheet" href="../../assets/css/blog.css">
+
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Attack Simulation - Dependency Confusion Attack</h1>
+    <a class="back" href="../../index.html">← Back to home</a>
+  </div>
+</header>
+
+<main class="container">
+<article>
+<h2>Introduction</h2>
+<p>In my previous post - <a href="https://onemorelens.co.in/posts/Supply-Chain-Security/15-04-2026-dependency-confusion-attack.html">Dependency Confusion Attack - Deep Dive &amp; Attack Techniques</a>, I covered the theory behind dependency confusion attacks-how modern package managers can unintentionally pull malicious code from public registries. That discussion stayed at a conceptual level.</p>
+<p>In this lab, I wanted to go one level deeper and actually observe the behavior in a controlled setup. Instead of just understanding what happens, the goal here is to see how it happens in a system that closely resembles a real enterprise environment.</p>
+<p>At a high level, we are going to simulate a situation where an application depends on an internal package, but due to registry configuration and version mismatch, a malicious package from a public registry gets installed and executed.</p>
+<p><img src="../../assets/images/Dependency-Confusion-Attack-Simulation.png" alt="system dedign"></p>
+<h2>What We Are Building</h2>
+<p>To make this realistic, I recreated a common enterprise pattern:</p>
+<ul>
+<li>An application that depends on an internal package  </li>
+<li>A private registry acting as the internal source of truth  </li>
+<li>The same package name published publicly with a higher version  </li>
+<li>The private registry configured to proxy requests to the public registry  </li>
+</ul>
+<p>The key condition we will trigger is simple:</p>
+<blockquote>
+<p>The application requests a version that does not exist internally, and the registry silently falls back to the public source.</p>
+</blockquote>
+<p>That is where the attack happens.</p>
+<h2>Prerequisites</h2>
+<p>Before starting, here is what I used and why each component is important:</p>
+<ul>
+<li>Node.js and npm  </li>
+</ul>
+<p>These form the ecosystem where dependency resolution happens.</p>
+<ul>
+<li>Verdaccio  </li>
+</ul>
+<p>This acts as a private registry, similar to tools like Nexus or Artifactory used in enterprises.</p>
+<ul>
+<li>npmjs account  </li>
+</ul>
+<p>Required to publish the malicious package to the public registry.</p>
+<h2>Creating the Victim Application</h2>
+<p>I started by creating a minimal Node.js application. The purpose of this application is simply to depend on a package and execute it.</p>
+<pre><code class="language-bash">mkdir my-app
+cd my-app
+npm init -y</code></pre>
+<p>Then I created a simple entry file ``<code>index.js</code>``</p>
+<pre><code class="language-js">const utils = require(&quot;onemorelens-utils&quot;);
+
+utils();</code></pre>
+<p>At this point, the application assumes that a package named <code>onemorelens-utils</code> exists somewhere in its configured registry.</p>
+<h2>Creating the Internal Package</h2>
+<p>Next, I created the internal version of this package. This represents what a company would normally host in its private registry.</p>
+<pre><code class="language-bash">mkdir internal-package
+cd internal-package
+npm init -y</code></pre>
+<p>The package was defined as:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;onemorelens-utils&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;main&quot;: &quot;index.js&quot;
+}</code></pre>
+<p>And the implementation:</p>
+<pre><code class="language-js">module.exports = () =&gt; {
+  console.log(&quot;Internal package v1.0.0&quot;);
+};</code></pre>
+<h2>Setting Up the Private Registry</h2>
+<p>To simulate an enterprise environment, I used Verdaccio as a private registry.</p>
+<pre><code class="language-bash">verdaccio</code></pre>
+<p>By default, it runs on ``<code>http://localhost:4873</code>``</p>
+<p>Then I configured npm to use this registry:</p>
+<pre><code class="language-bash">npm set registry http://localhost:4873</code></pre>
+<p>After authenticating, I published the internal package:</p>
+<pre><code class="language-bash">npm adduser --registry http://localhost:4873
+npm publish --registry http://localhost:4873</code></pre>
+<p>At this point, the internal package is available in the private registry.</p>
+<h2>Creating the Malicious Package</h2>
+<p>Now comes the attacker-controlled part.</p>
+<p>I switched back to the public registry:</p>
+<pre><code class="language-bash">npm set registry https://registry.npmjs.org/
+npm login</code></pre>
+<p>Then created a package with the <strong>same name but higher version</strong>:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;onemorelens-utils&quot;,
+  &quot;version&quot;: &quot;1.1.0&quot;,
+  &quot;main&quot;: &quot;index.js&quot;
+}</code></pre>
+<p>The code inside it:</p>
+<pre><code class="language-js">console.log(&quot;Malicious code executed&quot;);
+
+module.exports = () =&gt; {
+  console.log(&quot;Looks normal&quot;);
+};</code></pre>
+<p>Finally, I published it:</p>
+<pre><code class="language-bash">npm publish</code></pre>
+<p>This package is now available publicly and appears more recent than the internal version.</p>
+<h2>Configuring Upstream Proxy (Critical Step)</h2>
+<p>This is what makes the setup realistic.</p>
+<p>In many organizations, private registries are configured to fetch packages from public sources if they are not found internally.</p>
+<p>In Verdaccio, this is controlled via the configuration:</p>
+<pre><code class="language-yaml">uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+
+packages:
+  &#x27;**&#x27;:
+    access: $all
+    publish: $authenticated
+    proxy: npmjs</code></pre>
+<p>This means:</p>
+<ol>
+<li>Check internal storage first  </li>
+<li>If the required version is not found, forward the request to npmjs  </li>
+</ol>
+<h2>Triggering the Attack</h2>
+<p>Back in our victim application, I updated the dependency to explicitly request a version that does not exist internally:</p>
+<pre><code class="language-json">&quot;dependencies&quot;: {
+  &quot;onemorelens-utils&quot;: &quot;1.1.0&quot;
+}</code></pre>
+<p>Notice the mismatch:</p>
+<ul>
+<li>Internal registry has version <code>1.0.0</code>  </li>
+<li>Application is requesting <code>1.1.0</code>  </li>
+</ul>
+<p>Then I performed a clean install:</p>
+<pre><code class="language-bash">rm -rf node_modules package-lock.json
+npm install</code></pre>
+<h2>Observing the Behavior</h2>
+<p>Here is what happens under the hood:</p>
+<ol>
+<li>The application requests version <code>1.1.0</code>  </li>
+<li>Verdaccio checks internal storage - not found  </li>
+<li>Verdaccio forwards the request to npmjs  </li>
+<li>npmjs returns the malicious package  </li>
+<li>The package gets installed  </li>
+</ol>
+<p>Running the application:</p>
+<pre><code class="language-bash">node index.js</code></pre>
+<p>Produces:</p>
+<pre><code>Malicious code executed
+Looks normal</code></pre>
+<h2>What Just Happened?</h2>
+<p>This was not a simple “install from public registry” scenario.</p>
+<p>This was a <strong>trusted internal system</strong> silently pulling code from an external source because of:</p>
+<ul>
+<li>Version mismatch  </li>
+<li>Upstream proxy configuration  </li>
+<li>Lack of strict isolation  </li>
+</ul>
+<p>The application believed it was using an internal dependency, but ended up executing attacker-controlled code.</p>
+<h2>Key Takeaway</h2>
+<p>The core issue is not just dependency management-it is <strong>implicit trust boundaries</strong>.</p>
+<p>Once a private registry is allowed to proxy to public sources, any mismatch or misconfiguration can introduce untrusted code into the system.</p>
+<p>That is where dependency confusion becomes dangerous.</p>
+<h2>Lab Repository</h2>
+<p><a href="https://github.com/Dhananjay-B/dependency-confusion-attack-lab">https://github.com/Dhananjay-B/dependency-confusion-attack-lab</a></p>
+<h3>📢 Share this post</h3>
+<p><a href="https://twitter.com/intent/tweet?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Attack%20Simulation%20-%20Dependency%20Confusion%20Attack&amp;url=https://onemorelens.co.in/posts/Labs/01-05-2026-Dependency-Confusion-Attack-Simulation.html"><img src="https://img.shields.io/badge/Share-Twitter-1DA1F2?style=for-the-badge&amp;logo=twitter" alt="Twitter"></a></p>
+<p><a href="https://www.linkedin.com/sharing/share-offsite/?url=https://onemorelens.co.in/posts/Labs/01-05-2026-Dependency-Confusion-Attack-Simulation.html"><img src="https://img.shields.io/badge/Share-LinkedIn-0A66C2?style=for-the-badge&amp;logo=linkedin" alt="LinkedIn"></a></p>
+<p><a href="https://api.whatsapp.com/send?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Attack%20Simulation%20-%20Dependency%20Confusion%20Attack.%20https://onemorelens.co.in/posts/Labs/01-05-2026-Dependency-Confusion-Attack-Simulation.html"><img src="https://img.shields.io/badge/Share-WhatsApp-25D366?style=for-the-badge&amp;logo=whatsapp" alt="WhatsApp"></a></p>
+
+</article>
+</main>
+</body>
+</html>

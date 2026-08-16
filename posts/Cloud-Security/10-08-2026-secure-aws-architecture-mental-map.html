@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Secure AWS Architecture: A Mental Map for Real-World Scenarios">
+<title>Secure AWS Architecture: A Mental Map for Real-World Scenarios | Dhananjay Bhujbal</title>
+<link rel="stylesheet" href="../../assets/css/blog.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>A Mental Map to Build Secure AWS Architectures.</h1>
+    <a class="back" href="../../index.html">← Back to home</a>
+  </div>
+</header>
+
+<main class="container">
+<article>
+<blockquote>
+<p>You can know IAM, KMS, VPC, GuardDuty, CloudTrail, WAF, and dozens of other AWS services - and still struggle when you have to design a secure architecture or assess a real-world scenario.</p>
+<h3>The problem is often not knowledge. It is knowing how to connect the knowledge.</h3>
+</blockquote>
+<hr>
+<p><img src="../../assets/images/secure-aws-architecture-mental-map.png" alt="Header Image"></p>
+<h3>The gap between knowing and applying</h3>
+<p>A common experience looks like this.</p>
+<p>You study a concept. You understand it. You can explain it when someone asks you directly.</p>
+<p>Then you are given a scenario:</p>
+<blockquote>
+<p><strong>"Design a secure AWS architecture for a production web application."</strong></p>
+</blockquote>
+<p>Suddenly, everything you know feels disconnected.</p>
+<p>You start wondering where to begin. Should you start with IAM? The VPC? KMS? WAF? GuardDuty? Organizations?</p>
+<p>This happens because there is a difference between <strong>knowing individual concepts</strong> and <strong>using those concepts to reason about a system</strong>.</p>
+<p>The missing layer is:</p>
+<p><strong>Knowledge → Situation recognition → Reasoning → Architecture → Explanation</strong></p>
+<p>The goal is to strengthen the middle of that chain.</p>
+<hr>
+<h3>Why this happens</h3>
+<p>AWS is often learned as a collection of services:</p>
+<ul>
+<li>IAM</li>
+<li>VPC</li>
+<li>Security Groups</li>
+<li>KMS</li>
+<li>S3</li>
+<li>CloudTrail</li>
+<li>GuardDuty</li>
+<li>Security Hub</li>
+<li>WAF</li>
+<li>Organizations</li>
+<li>Config</li>
+<li>Secrets Manager</li>
+</ul>
+<p>This is useful when learning the platform.</p>
+<p>But real-world scenarios rarely present themselves as isolated service questions.</p>
+<p>You are more likely to encounter something like:</p>
+<blockquote>
+<p>"The application handles sensitive customer data. How would you secure it?"</p>
+</blockquote>
+<p>Now you have to <strong>derive</strong> the solution.</p>
+<p>Instead of remembering:</p>
+<blockquote>
+<p><strong>KMS → encryption</strong></p>
+</blockquote>
+<p>you need to think:</p>
+<blockquote>
+<p><strong>Sensitive data → protection requirement → encryption → key management → access control → auditing</strong></p>
+</blockquote>
+<p>That is a very different kind of knowledge.</p>
+<hr>
+<h2>The AWS Security Mental Map</h2>
+<p>When looking at a broad AWS security problem, don't immediately start naming services.</p>
+<p>Start with the problem.</p>
+<p>A useful mental map is:</p>
+<pre><code class="language-text">                         AWS SECURITY
+                              │
+       ┌──────────────────────┼──────────────────────┐
+       │                      │                      │
+   1. IDENTITY            2. NETWORK             3. DATA
+   Who can access?        Who can talk?           What is protected?
+       │                      │                      │
+     IAM                  VPC / SG               KMS
+     Roles                NACL                   S3
+     Policies             WAF                    Secrets Manager
+     SCP                  Endpoints              TLS
+       │                      │                      │
+       └──────────────────────┼──────────────────────┘
+                              │
+       ┌──────────────────────┼──────────────────────┐
+       │                      │                      │
+  4. WORKLOAD            5. DETECTION           6. PREVENTION
+  What is running?       How do we know?        How do we stop it?
+       │                      │                      │
+     EC2 / ECS             CloudTrail             IAM
+     EKS                   GuardDuty              SCP
+     Lambda                Security Hub           WAF
+     Containers            VPC Flow Logs           SG
+       │                      │                      │
+       └──────────────────────┼──────────────────────┘
+                              │
+       ┌──────────────────────┴──────────────────────┐
+       │                                             │
+  7. RESPONSE                                  8. GOVERNANCE
+  What happens after detection?                How is security
+                                               enforced at scale?
+       │                                             │
+  EventBridge                                    Organizations
+  Lambda                                         SCP
+  Isolation                                       Config
+  Credential rotation                             Centralized logging
+  Investigation                                  Security Hub</code></pre>
+<p>The point of this map is not to memorize eight boxes.</p>
+<p>It gives you somewhere to start when the problem is broad or unfamiliar.</p>
+<hr>
+<h2>1. Identity - Who can access what?</h2>
+<p>Start by asking:</p>
+<blockquote>
+<p><strong>Who is accessing the resource, and what should they be allowed to do?</strong></p>
+</blockquote>
+<p>This naturally leads to IAM roles and policies, least privilege, federation, resource-based policies, SCPs, permission boundaries, and temporary credentials.</p>
+<p>Consider a simple example:</p>
+<blockquote>
+<p>An EC2 instance needs to read objects from an S3 bucket.</p>
+</blockquote>
+<p>Instead of immediately listing AWS services, reason through it.</p>
+<p>The EC2 workload needs an identity. An IAM role can provide that identity. The role should have only the S3 permissions it actually needs, scoped to the required resources.</p>
+<p>You can then ask whether additional conditions or organizational controls are needed.</p>
+<p>The important part is that <strong>the requirement led you to the control</strong>.</p>
+<hr>
+<h2>2. Network - Who can communicate with what?</h2>
+<p>Once you understand the identities involved, look at communication.</p>
+<p>Ask:</p>
+<blockquote>
+<p><strong>Which components need to communicate, and what should be isolated?</strong></p>
+</blockquote>
+<p>This brings in VPCs, subnets, Security Groups, NACLs, route tables, VPC endpoints, load balancers, WAF, and other network controls.</p>
+<p>Consider:</p>
+<blockquote>
+<p>A database should not be directly reachable from the internet.</p>
+</blockquote>
+<p>The answer starts with the communication requirement, not a list of services.</p>
+<p>A simple design might look like:</p>
+<pre><code class="language-text">Internet
+   │
+   ▼
+Public-facing layer
+   │
+   ▼
+Application layer
+   │
+   ▼
+Private database</code></pre>
+<p>Then you can reason about the details:</p>
+<p>Does the database need a public IP? Which components should be able to reach it? Which ports are required? Does the application need outbound internet access? Can AWS service traffic use private endpoints?</p>
+<p>The principle is simple:</p>
+<blockquote>
+<p><strong>Network design follows communication requirements.</strong></p>
+</blockquote>
+<hr>
+<h2>3. Data - What are we protecting?</h2>
+<p>Now ask:</p>
+<blockquote>
+<p><strong>What data matters, and what happens if it is exposed or modified?</strong></p>
+</blockquote>
+<p>This leads to questions around encryption, KMS, secrets, certificates, data classification, and backup protection.</p>
+<p>For example:</p>
+<blockquote>
+<p>An application stores customer financial information.</p>
+</blockquote>
+<p>Rather than jumping straight to KMS, first identify the problem.</p>
+<p>The data is sensitive. Unauthorized disclosure is a concern. Therefore, encryption at rest and in transit may be required. Key access should be controlled. Key usage should be auditable.</p>
+<p>KMS may be part of that design, but it is there because of the requirement - not because the question happened to mention AWS security.</p>
+<hr>
+<h2>4. Workload - What is actually running?</h2>
+<p>Infrastructure security doesn't end at the VPC.</p>
+<p>Ask:</p>
+<blockquote>
+<p><strong>What is the workload, and how can it be compromised?</strong></p>
+</blockquote>
+<p>The answer depends on whether you are running EC2, ECS, EKS, Lambda, containers, or something else.</p>
+<p>For an EC2-based application, for example, you might need to think about provisioning, patching, AMIs, instance permissions, credentials, vulnerabilities, and runtime activity.</p>
+<p>If the scenario says:</p>
+<blockquote>
+<p>"The company runs applications on EC2."</p>
+</blockquote>
+<p>Don't stop at knowing what EC2 is.</p>
+<p>Start asking:</p>
+<blockquote>
+<p>How are these instances provisioned and patched? What permissions do they have? Are credentials being stored on them? How are vulnerabilities detected? What happens if one of them is compromised?</p>
+</blockquote>
+<p>The question has changed from:</p>
+<blockquote>
+<p><strong>"What is EC2?"</strong></p>
+</blockquote>
+<p>to:</p>
+<blockquote>
+<p><strong>"What can go wrong with this workload, and how do I control it?"</strong></p>
+</blockquote>
+<hr>
+<h2>5. Detection - How do we know something went wrong?</h2>
+<p>Security is not only about preventing an attack.</p>
+<p>Ask:</p>
+<blockquote>
+<p><strong>If an attacker succeeds, how will we know?</strong></p>
+</blockquote>
+<p>This is where services such as CloudTrail, GuardDuty, Security Hub, Config, VPC Flow Logs, CloudWatch, and SIEM integrations become relevant.</p>
+<p>A useful distinction is:</p>
+<pre><code class="language-text">Prevention  → Stop or limit the attack
+Detection   → Identify the attack
+Response    → Contain and recover</code></pre>
+<p>For example, suppose someone obtains an AWS credential and starts making suspicious API calls.</p>
+<p>You can reason through it:</p>
+<p>The activity needs to be recorded. CloudTrail provides API activity visibility. GuardDuty can identify certain suspicious behaviors. Security Hub can provide a central place for security findings.</p>
+<p>Again, the important part is the relationship between the problem and the controls.</p>
+<hr>
+<h2>6. Prevention - How do we stop or limit it?</h2>
+<p>Once you understand the threat, ask:</p>
+<blockquote>
+<p><strong>What controls can prevent it or reduce its impact?</strong></p>
+</blockquote>
+<p>Prevention can happen at multiple layers.</p>
+<p>At the identity layer, that might mean least privilege, SCPs, MFA, or temporary credentials.</p>
+<p>At the network layer, it could mean Security Groups, private subnets, WAF, or Network Firewall.</p>
+<p>At the data layer, it could mean encryption, key policies, bucket policies, and access controls.</p>
+<p>At the workload layer, it could mean hardening, patching, image scanning, and runtime controls.</p>
+<p>This is where <strong>defense in depth</strong> becomes practical.</p>
+<p>You are not looking for one perfect control. You are building several controls that limit the impact if one control fails.</p>
+<hr>
+<h2>7. Response - What happens after detection?</h2>
+<p>A mature security design also asks:</p>
+<blockquote>
+<p><strong>What happens after we detect an incident?</strong></p>
+</blockquote>
+<p>Think of the flow:</p>
+<pre><code class="language-text">Detection
+    │
+    ▼
+Finding / Alert
+    │
+    ▼
+Event / Automation
+    │
+    ▼
+Containment
+    │
+    ▼
+Investigation
+    │
+    ▼
+Recovery</code></pre>
+<p>For example, if GuardDuty detects suspicious activity from an EC2 instance, the response should not end with "an alert is generated."</p>
+<p>You should think about how the finding reaches the security team, whether EventBridge can trigger automation, how the instance could be isolated, whether credentials need to be rotated, how evidence is preserved, and how the workload is safely rebuilt.</p>
+<p>This turns a security tool into part of a <strong>security response design</strong>.</p>
+<hr>
+<h2>8. Governance - How is security enforced at scale?</h2>
+<p>Security becomes a different problem when the environment grows.</p>
+<p>Ask:</p>
+<blockquote>
+<p><strong>What happens when one AWS account becomes 50 or 500 accounts?</strong></p>
+</blockquote>
+<p>Manually configuring every account does not scale.</p>
+<p>Now you start thinking about AWS Organizations, SCPs, centralized logging, GuardDuty, Security Hub, Config, and dedicated security or audit accounts.</p>
+<p>The mental model becomes:</p>
+<pre><code class="language-text">AWS Organization
+       │
+       ├── Preventive controls
+       │       └── SCPs
+       │
+       ├── Detective controls
+       │       ├── Config
+       │       ├── GuardDuty
+       │       └── Security Hub
+       │
+       └── Centralized visibility
+               └── CloudTrail / logging</code></pre>
+<p>The important insight is:</p>
+<blockquote>
+<p><strong>Security at scale is not just about securing individual resources. It is about enforcing and monitoring security consistently across the environment.</strong></p>
+</blockquote>
+<hr>
+<p>Once you identify the security problem, another simple framework helps turn your reasoning into a clear design.</p>
+<table>
+<thead><tr>
+<th>Step</th>
+<th>Question</th>
+<th>Example — EC2 Credentials</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Why?</strong></td>
+<td>What is the security problem?</td>
+<td>Avoid hardcoding long-lived AWS credentials in the application.</td>
+</tr>
+<tr>
+<td><strong>What?</strong></td>
+<td>Which capability addresses it?</td>
+<td>Use an IAM role for the EC2 instance.</td>
+</tr>
+<tr>
+<td><strong>How?</strong></td>
+<td>How would you actually implement it?</td>
+<td>Attach a least-privilege role that permits only the required AWS API operations and resources. The workload can obtain temporary credentials rather than storing long-lived access keys.</td>
+</tr>
+<tr>
+<td><strong>Tradeoff?</strong></td>
+<td>What limitation, alternative, or design consideration should you mention?</td>
+<td>If the application needs an application secret rather than AWS credentials, a service such as Secrets Manager may be more appropriate.</td>
+</tr>
+</tbody>
+</table>
+<p>This is much stronger than simply saying:</p>
+<blockquote>
+<p>"Use IAM roles because they are more secure."</p>
+</blockquote>
+<hr>
+<p>When you encounter a new AWS scenario, don't immediately look for the answer.</p>
+<p>Take a minute and ask:</p>
+<pre><code class="language-text">Who needs access?
+What needs to communicate?
+What data needs protection?
+What workload is running?
+How would I detect something going wrong?
+How would I prevent or limit it?
+What happens after detection?
+How would I enforce this at scale?</code></pre>
+<p>You may not have a complete answer. That's fine. The gaps tell you exactly what you need to learn. Then look at the solution, identify the connections you missed, and try the same scenario again. Over time, the individual AWS services stop feeling like isolated pieces. They start forming a system in your head.</p>
+<hr>
+<h3>Closing Thought 🧠</h3>
+<p>Knowing AWS is the foundation. Knowing <strong>when and why to use what you know</strong> is the actual engineering skill. Don't aim to memorize better architectures. Aim to build a mental map that lets you <strong>derive better architecture</strong>.</p>
+<p>Because in the real world, the exact scenario may be something you've never seen before. Your knowledge might not contain the answer. But a good reasoning framework can still help you get there.</p>
+<hr>
+<h3>📢 Share this post</h3>
+<p><a href="https://twitter.com/intent/tweet?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Secure%20AWS%20Architecture%20Mental%20Map&amp;url=https://onemorelens.co.in/posts/Cloud-Security/10-08-2026-secure-aws-architecture-mental-map.html"><img src="https://img.shields.io/badge/Share-Twitter-1DA1F2?style=for-the-badge&amp;logo=twitter" alt="Twitter"></a></p>
+<p><a href="https://www.linkedin.com/sharing/share-offsite/?url=https://onemorelens.co.in/posts/Cloud-Security/10-08-2026-secure-aws-architecture-mental-map.html"><img src="https://img.shields.io/badge/Share-LinkedIn-0A66C2?style=for-the-badge&amp;logo=linkedin" alt="LinkedIn"></a></p>
+<p><a href="https://api.whatsapp.com/send?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Secure%20AWS%20Architecture%20Mental%20Map.%20https://onemorelens.co.in/posts/Cloud-Security/10-08-2026-secure-aws-architecture-mental-map.html"><img src="https://img.shields.io/badge/Share-WhatsApp-25D366?style=for-the-badge&amp;logo=whatsapp" alt="WhatsApp"></a></p>
+</article>
+</main>
+</body>
+</html>

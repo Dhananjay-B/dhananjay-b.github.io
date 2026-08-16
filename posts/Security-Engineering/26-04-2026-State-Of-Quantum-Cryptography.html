@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Post-Quantum Cryptography: Where We Stand Today">
+<title>Post-Quantum Cryptography: Where We Stand Today | Dhananjay Bhujbal</title>
+
+<link rel="stylesheet" href="../../assets/css/blog.css">
+
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Post-Quantum Cryptography: Where We Stand Today</h1>
+    <a class="back" href="../../index.html">← Back to home</a>
+  </div>
+</header>
+
+<main class="container">
+<article>
+<p>Quantum cryptography and post-quantum cryptography (PQC) are vast topics on their own. This post is intended to be a <strong>high-level introduction</strong>.</p>
+<p>The goal here is to build a clear understanding of how quantum computing is expected to impact the current state of cryptography, and what that means in practice.</p>
+<p>If you are a cybersecurity leader, this should help you start thinking about <strong>long-term migration and strategy</strong>. If you are an implementation engineer, this should give you a <strong>strong foundational understanding</strong> of the concepts involved.</p>
+<p>This is just the starting point - we will go deeper into implementation, architecture, and practical adoption in upcoming posts. Stay tuned for more implementation-focused deep dives.</p>
+<p><img src="../../assets/images/Quantum-Cryptography.jpg" alt="Quantum-Cryptography"> <em>Image Credit: VectorMine/Shutterstock</em></p>
+<h2>Current State of Cryptography</h2>
+<p>If we look at modern systems today, almost everything we rely on for secure communication is built on a small set of well-established cryptographic primitives.</p>
+<p>Protocols like TLS, SSH, and VPNs depend heavily on:</p>
+<ul>
+<li>RSA</li>
+<li>Elliptic Curve Cryptography (ECC)</li>
+<li>Symmetric encryption (like AES)</li>
+</ul>
+<p>The security of RSA and ECC comes from mathematical problems that are <strong>computationally hard for classical computers</strong> - such as factoring large numbers or solving discrete logarithms.</p>
+<p>For decades, this assumption has held strong. It’s the reason why we can safely:</p>
+<ul>
+<li>Browse websites over HTTPS (TLS)</li>
+<li>Authenticate users (MAC)</li>
+<li>Secure APIs and infrastructure (SSL/TLS, SSH)</li>
+</ul>
+<p>In simple terms, today’s cryptography works because <strong>breaking it would take impractical amounts of time and compute power</strong>.</p>
+<hr>
+<h2>What Changes with Quantum Computing</h2>
+<blockquote>
+<p>I won't cover what Quantum Computing is but here is good read on it - <a href="https://www.ibm.com/think/topics/quantum-computing">What is quantum computing? By Josh Schneider &amp; Ian Smalley, IBM</a></p>
+</blockquote>
+<p>Quantum computing changes the game - not by making computers faster in the traditional sense, but by enabling <strong>completely different ways of solving problems</strong>.</p>
+<p>The most important shift comes from algorithms like Shor’s algorithm, which can efficiently:</p>
+<ul>
+<li>Factor large numbers</li>
+<li>Solve discrete logarithms</li>
+</ul>
+<p>These are exactly the problems that RSA and ECC depend on.</p>
+<p>What this means is:</p>
+<ul>
+<li>RSA --&gt; effectively broken in a quantum-capable world</li>
+<li>ECC --&gt; also broken</li>
+</ul>
+<p>On the other hand, symmetric cryptography (like AES) is not broken, but weakened due to Grover’s algorithm. In practice, this means we may need <strong>larger key sizes</strong>, not entirely new systems.</p>
+<blockquote>
+<p>The core takeaway is simple: the foundations of modern public-key cryptography do not hold against quantum attackers.</p>
+</blockquote>
+<hr>
+<h2>Current State of Quantum Computing</h2>
+<p>Now, this is where it’s important to stay grounded.</p>
+<p>Quantum computers today are:</p>
+<ul>
+<li>Limited in the number of qubits (We need Quantum Computer with ~4000 stable qubits to make them break current algorithms)</li>
+<li>Highly error-prone (Magnetic field interference, environment matters)</li>
+<li>Not yet capable of running large-scale cryptographic attacks</li>
+</ul>
+<p>We are still in what can be considered an <strong>early or experimental phase</strong>.</p>
+<p>However, progress is real:</p>
+<ul>
+<li>Hardware is improving</li>
+<li>Error correction is advancing</li>
+<li>Investments are increasing</li>
+</ul>
+<p>So while quantum computers are <strong>not an immediate threat</strong>, they are a <strong>strategic and inevitable one</strong>.</p>
+<hr>
+<h2>What is Post-Quantum Cryptography (PQC)</h2>
+<p>Post-Quantum Cryptography (PQC) refers to cryptographic algorithms that are designed to remain secure even in the presence of quantum computers.</p>
+<p>Instead of relying on factoring or discrete logarithms, these algorithms are based on different mathematical problems, such as:</p>
+<ul>
+<li>Lattice-based cryptography</li>
+<li>Hash-based cryptography</li>
+<li>Code-based cryptography</li>
+</ul>
+<p>The goal here is not to replace cryptography entirely, but to <strong>replace the vulnerable parts</strong> (mainly RSA and ECC) with quantum-resistant alternatives.</p>
+<p>From a system perspective, PQC aims to:</p>
+<ul>
+<li>Provide secure key exchange</li>
+<li>Enable digital signatures</li>
+<li>Integrate with existing protocols (like TLS)</li>
+</ul>
+<blockquote>
+<p>In many ways, PQC is about evolving cryptography - not reinventing it.</p>
+</blockquote>
+<hr>
+<h2>NIST Standardizations</h2>
+<p>One of the most important developments in this space has been the standardization effort led by NIST (National Institute of Standards and Technology).</p>
+<p>Over the past few years, NIST has been evaluating and selecting quantum-resistant algorithms for standardization.</p>
+<p>Some of the key selections include:</p>
+<ul>
+<li>CRYSTALS-Kyber --&gt; for key encapsulation (key exchange)</li>
+<li>CRYSTALS-Dilithium --&gt; for digital signatures</li>
+<li>SPHINCS+ --&gt; hash-based signature scheme</li>
+</ul>
+<p>These algorithms are expected to become the <strong>new foundation for secure communication</strong> in a post-quantum world.</p>
+<p>What’s important here is not just the algorithms themselves, but the signal:</p>
+<blockquote>
+<p>The industry is actively preparing for a transition.</p>
+</blockquote>
+<hr>
+<h2>Real-World Risks Today &amp; What Organizations Should Do Today?</h2>
+<p>Even though quantum computers are not yet breaking cryptography, there is a very real risk today known as:</p>
+<blockquote>
+<p><strong>“Harvest now, decrypt later”</strong></p>
+</blockquote>
+<p>Attackers can:</p>
+<ul>
+<li>Capture encrypted traffic today</li>
+<li>Store it</li>
+<li>Decrypt it in the future when quantum capabilities become available</li>
+</ul>
+<p>This is especially concerning for:</p>
+<ul>
+<li>Long-lived sensitive data</li>
+<li>Government and defense systems</li>
+<li>Financial and healthcare data</li>
+</ul>
+<p>Another major challenge is <strong>crypto agility</strong>.</p>
+<p>Most organizations today:</p>
+<ul>
+<li>Don’t have a clear inventory of where cryptography is used</li>
+<li>Cannot easily replace algorithms across systems</li>
+</ul>
+<p>This makes migration difficult.</p>
+<hr>
+<h3>What should organizations do today?</h3>
+<p>We don’t need panic - but we do need preparation.</p>
+<p>A few practical steps:</p>
+<ul>
+<li>Start by <strong>inventorying cryptographic assets</strong></li>
+<li>Identify where RSA/ECC is being used</li>
+<li>Track dependencies on third-party systems</li>
+<li>Design systems with <strong>crypto agility in mind</strong></li>
+<li>Stay aligned with NIST recommendations</li>
+</ul>
+<p>This is not a one-time change. It’s a <strong>long-term migration problem</strong>.</p>
+<hr>
+<h2>Closing Insight</h2>
+<p>The transition to post-quantum cryptography will not happen overnight.</p>
+<p>It will take years - possibly decades - to fully replace existing cryptographic systems across the ecosystem.</p>
+<p>But the important part is this:</p>
+<blockquote>
+<p>The risk is already here, even if the capability is not.</p>
+</blockquote>
+<p>Organizations that start early will have the advantage of:</p>
+<ul>
+<li>Better visibility</li>
+<li>Smoother migration</li>
+<li>Reduced long-term risk</li>
+</ul>
+<p>In the end, post-quantum cryptography is not just about future-proofing systems - it’s about <strong>building resilience against a class of threats that we already know is coming</strong>.</p>
+<h3>📢 Share this post</h3>
+<p><a href="https://twitter.com/intent/tweet?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Post-Quantum%20Cryptography%3A%20Where%20We%20Stand%20Today&amp;url=https://onemorelens.co.in/posts/Security-Engineering/26-04-2026-State-Of-Quantum-Cryptography.html"><img src="https://img.shields.io/badge/Share-Twitter-1DA1F2?style=for-the-badge&amp;logo=twitter" alt="Twitter"></a></p>
+<p><a href="https://www.linkedin.com/sharing/share-offsite/?url=https://onemorelens.co.in/posts/Security-Engineering/26-04-2026-State-Of-Quantum-Cryptography.html"><img src="https://img.shields.io/badge/Share-LinkedIn-0A66C2?style=for-the-badge&amp;logo=linkedin" alt="LinkedIn"></a></p>
+<p><a href="https://api.whatsapp.com/send?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Post-Quantum%20Cryptography%3A%20Where%20We%20Stand%20Today.%20https://onemorelens.co.in/posts/Security-Engineering/26-04-2026-State-Of-Quantum-Cryptography.html"><img src="https://img.shields.io/badge/Share-WhatsApp-25D366?style=for-the-badge&amp;logo=whatsapp" alt="WhatsApp"></a></p>
+</article>
+</main>
+</body>
+</html>
