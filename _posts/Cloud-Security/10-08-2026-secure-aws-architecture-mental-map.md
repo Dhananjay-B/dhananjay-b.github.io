@@ -1,3 +1,17 @@
+---
+title: "Secure AWS Architecture: A Mental Map for Real-World Scenarios"
+date: 2026-08-10
+layout: single
+categories:
+  - Cloud Security
+tags:
+  - AWS
+  - Cloud Security
+  - AWS Architecture
+  - Security Engineering
+  - Cloud Security Architecture
+---
+
 # A Mental Map to Build Secure AWS Architectures.
 
 > You can know IAM, KMS, VPC, GuardDuty, CloudTrail, WAF, and dozens of other AWS services - and still struggle when you have to design a secure architecture or assess a real-world scenario.
