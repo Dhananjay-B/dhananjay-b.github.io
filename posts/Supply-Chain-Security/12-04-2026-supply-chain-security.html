@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Your application is only as secure as the weakest link in its supply chain.">
+<title>Your application is only as secure as the weakest link in its supply chain. | Dhananjay Bhujbal</title>
+
+<link rel="stylesheet" href="../../assets/css/blog.css">
+
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Your application is only as secure as the weakest link in its supply chain.</h1>
+    <a class="back" href="../../index.html">← Back to home</a>
+  </div>
+</header>
+
+<main class="container">
+<article>
+<blockquote>
+<p>You write secure code, but does that imply your application is fully secure? All it takes is single network call or a bash script that runs unnoticed on your machine!</p>
+<p>### Attackers don’t break in anymore - they get shipped in.</p>
+</blockquote>
+<h3>What is software supply chain?</h3>
+<p>Software today is assembled, not written from scratch.</p>
+<p><strong><em>The software supply chain includes all components, processes, and people involved in building, packaging, and delivering software.</em></strong></p>
+<p>Typical application (web app/mobile app/thick client), along with internal code, is built using</p>
+<ul>
+<li>Open-source libraries (npm, PyPI, Maven)</li>
+<li>Build tools and CI/CD pipelines</li>
+<li>Container images and base OS layers</li>
+</ul>
+<p>All these components together form software supply chain.</p>
+<p>Think of it as a pipeline</p>
+<p><img src="../../assets/images/Software%20Supply%20Chain.png" alt="Software Supply Chain"></p>
+<hr>
+<h3>Why it matters?</h3>
+<p>Software or applications today are mix of multiple open-source, third party dependencies. You don’t control everything in your software.</p>
+<p>A single vulnerable dependency can compromise your whole application. Build pipeline that is tampered can ship malicious code that you never intended in production.</p>
+<hr>
+<h3>Threat Landscape - Risks &amp; Attack Techniques</h3>
+<p>Modern software is no longer built in isolation. It pulls code from <strong>dozens of external sources</strong>, relies on automated pipelines, and ships artifacts across distributed systems. This interconnected model makes the software supply chain a <strong>high-value target</strong> for attackers.</p>
+<p>Let’s break down the key risks - along with how attackers actually exploit them.</p>
+<h4>1. Malicious Dependencies</h4>
+<p>One of the most common entry points is through dependencies.</p>
+<p>Attackers exploit the fact that developers trust package managers by introducing malicious packages into the ecosystem. This is often done via:</p>
+<ul>
+<li><strong>Typosquatting</strong> - creating packages like <code>reqeusts</code> instead of <code>requests</code></li>
+<li><strong>Dependency Confusion</strong> - publishing a public package with the same name as an internal one</li>
+</ul>
+<p>When the build system resolves dependencies, it may unknowingly fetch and install these malicious packages.</p>
+<p><strong>Result:</strong> Malicious code executes during build or runtime - often without any visibility.</p>
+<h4>2. Compromised Maintainers</h4>
+<p>Instead of creating new packages, attackers sometimes go after <strong>existing trusted ones</strong>.</p>
+<p>By taking over maintainer accounts (<a href="https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan">recent Axios breach is best example for this</a>), they can push updates that appear legitimate but contain hidden backdoors. Since the package is already widely trusted, these updates propagate quickly.</p>
+<p>A well-known example is the event-stream npm compromise.</p>
+<p><strong>Result:</strong> A trusted dependency turns into an attack vector overnight.</p>
+<h4>3. CI/CD Pipeline Attacks</h4>
+<p>CI/CD pipelines are powerful - and dangerous if misconfigured.</p>
+<p>They often have:</p>
+<ul>
+<li>Elevated privileges</li>
+<li>Access to sensitive secrets</li>
+<li>Permissions to deploy to production</li>
+</ul>
+<p>Attackers target pipelines by injecting malicious steps, modifying build scripts, or exploiting weak access controls.</p>
+<p><strong>Result:</strong> Full control over the build and release process - attackers can ship malicious software directly to users.</p>
+<h4>4. Artifact Tampering</h4>
+<p>Even if your code and pipeline are secure, the final artifact itself can be targeted.</p>
+<p>Attackers may:</p>
+<ul>
+<li>Replace binaries or JARs</li>
+<li>Inject backdoors into container images</li>
+<li>Modify artifacts in registries</li>
+</ul>
+<p>Without integrity checks (like signing and verification), there is no way to ensure the artifact hasn’t been altered.</p>
+<p><strong>Result:</strong> Users download and execute compromised software, believing it is genuine.</p>
+<h4>5. Insecure Base Images</h4>
+<p>Modern applications heavily rely on container images, often built on top of public base images.</p>
+<p>If these base images are:</p>
+<ul>
+<li>Outdated</li>
+<li>Unverified</li>
+<li>Embedded with malware</li>
+</ul>
+<p>…the risk propagates to every container derived from them.</p>
+<p><strong>Result:</strong> A single weak base image compromises entire environments at scale.</p>
+<h4>6. Secret Leakage</h4>
+<p>Secrets are the backbone of modern systems - and a prime target.</p>
+<p>They often leak through:</p>
+<ul>
+<li>Build logs</li>
+<li>Hardcoded configurations</li>
+<li>Misconfigured CI/CD pipelines</li>
+</ul>
+<p>Once exposed, attackers can use these credentials to move laterally, access systems, or escalate privileges.</p>
+<p><strong>Result:</strong> Initial access turns into deeper, systemic compromise.</p>
+<blockquote>
+<p>Supply chain attacks are effective because they exploit <strong>trust and automation at scale</strong> - compromise once, impact thousands.</p>
+</blockquote>
+<hr>
+<h3>Security Controls &amp; Best Practices</h3>
+<p>Understanding the risks is only half the story. The real question is: how do you secure something as complex and distributed as the software supply chain?</p>
+<p>There’s no single fix. Security here is about layered controls across the entire lifecycle - from code to deployment.</p>
+<h4>1. Visibility First - Know What You Are Shipping</h4>
+<p>You can’t secure what you can’t see.</p>
+<p>Start by generating an SBOM (Software Bill of Materials) - a complete inventory of all components in your application.</p>
+<p>Multiple open-source and enterprise tools help you build this inventory as well as scanning for known vulnerabilities via CVE based scanning. Some advanced tools nowadays can now scan for malicious behaviour, dependency metadata, lateral movement and actual source code of open-source packages as well instead of just scanning for known CVE IDs.</p>
+<p>This gives you:</p>
+<ul>
+<li>Full dependency visibility</li>
+<li>Faster vulnerability detection</li>
+<li>Better incident response</li>
+</ul>
+<p>If you don’t know what’s inside your software, neither will your defenses.</p>
+<h4>2. Secure Dependencies - Reduce Blind Trust</h4>
+<p>Dependencies are the most common attack surface.</p>
+<p>Best practices:</p>
+<ul>
+<li>Pin exact versions (avoid “latest”). Make use of lock files to lock down dependencies to specific version.</li>
+<li>Use trusted registries only</li>
+<li>Continuously scan dependencies for vulnerabilities</li>
+</ul>
+<blockquote>
+<p>Treat every new dependency as untrusted code entering your system.</p>
+</blockquote>
+<h4>3. Integrity &amp; Provenance - Verify What You Build</h4>
+<p>How do you know your artifact hasn’t been tampered with?</p>
+<p>Use code signing and artifact verification:</p>
+<ul>
+<li>Sign build outputs</li>
+<li>Verify signatures before deployment</li>
+</ul>
+<blockquote>
+<p>Trust should be verified, not assumed.</p>
+</blockquote>
+<h4>4. Harden CI/CD Pipelines - Protect the Control Plane</h4>
+<p>Your pipeline is your most powerful asset - and your biggest risk. If your pipeline is compromised, everything downstream is compromised.</p>
+<p>Secure it by:</p>
+<ul>
+<li>Enforcing least privilege for pipeline roles</li>
+<li>Isolating build environments</li>
+<li>Storing secrets in secure vaults (not in configs/logs)</li>
+<li>Auditing pipeline changes</li>
+</ul>
+<h4>5. Secure Container Images - Build from Clean Foundations</h4>
+<p>Containers inherit everything from their base images.</p>
+<p>Best practices:</p>
+<ul>
+<li>Use minimal and trusted base images</li>
+<li>Regularly scan images for vulnerabilities</li>
+<li>Avoid running containers as root</li>
+<li>Rebuild images frequently to patch issues</li>
+</ul>
+<p>A secure image today can become vulnerable tomorrow - keep scanning.</p>
+<h4>6. Secrets Management - Eliminate Exposure</h4>
+<p>Secrets should never be:</p>
+<ul>
+<li>Hardcoded in code</li>
+<li>Printed in logs</li>
+<li>Stored in plain text</li>
+</ul>
+<p>Instead:</p>
+<ul>
+<li>Use secret managers (Vault, cloud-native solutions)</li>
+<li>Rotate secrets regularly</li>
+<li>Limit access using least privilege</li>
+</ul>
+<p>A leaked secret is often the beginning of a much larger breach.</p>
+<h4>7. Shift Left + Continuous Monitoring</h4>
+<p>Security shouldn’t be a final step - it should be continuous.</p>
+<ul>
+<li>Scan early (pre-commit, build stage)</li>
+<li>Monitor continuously (runtime, registries)</li>
+<li>Automate checks in pipelines</li>
+</ul>
+<p>This reduces the window of exposure and catches issues before they reach production.</p>
+<hr>
+<h4>Closing Thought 🧠</h4>
+<p>Supply chain security isn’t about eliminating risk - it’s about controlling trust at every step.</p>
+<p>The goal is simple: ensure that what you build, ship, and run is exactly what you intended - nothing more, nothing less.</p>
+<hr>
+<h3>📢 Share this post</h3>
+<p><a href="https://twitter.com/intent/tweet?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Your%20application%20is%20only%20as%20secure%20as%20the%20weakest%20link%20in%20its%20software%20supply%20chain&amp;url=https://onemorelens.co.in/posts/Supply-Chain-Security/12-04-2026-supply-chain-security.html"><img src="https://img.shields.io/badge/Share-Twitter-1DA1F2?style=for-the-badge&amp;logo=twitter" alt="Twitter"></a></p>
+<p><a href="https://onemorelens.co.in/posts/Supply-Chain-Security/12-04-2026-supply-chain-security.html"><img src="https://img.shields.io/badge/Share-LinkedIn-0A66C2?style=for-the-badge&amp;logo=linkedin" alt="LinkedIn"></a></p>
+<p><a href="https://api.whatsapp.com/send?text=Checkout%20this%20post%20by%20Dhananjay%20Bhujbal%20...%20Your%20application%20is%20only%20as%20secure%20as%20the%20weakest%20link%20in%20its%20software%20supply%20chain.%20https://onemorelens.co.in/posts/Supply-Chain-Security/12-04-2026-supply-chain-security.html"><img src="https://img.shields.io/badge/Share-WhatsApp-25D366?style=for-the-badge&amp;logo=whatsapp" alt="WhatsApp"></a></p>
+</article>
+</main>
+</body>
+</html>
