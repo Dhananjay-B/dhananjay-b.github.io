@@ -1,35 +1,838 @@
-<!DOCTYPE html>
-<html lang="en">    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>My Website</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <header>
-            <h1>Welcome to My Website</h1>
-            <nav>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Dhananjay Bhujbal — Security Engineer writing about cybersecurity, cloud security, AI/LLM security, DevSecOps, and practical security engineering." />
+    <meta name="author" content="Dhananjay Bhujbal" />
+    <title>Dhananjay Bhujbal | Security Engineer</title>
+    <style>
+        :root {
+            --bg: #0b1120;
+            --surface: #111827;
+            --surface-light: #172033;
+            --border: #263247;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --primary: #4cc2ff;
+            --primary-dark: #1d9bd7;
+            --green: #7cd9a5;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--white);
+        }
+
+        .container {
+            width: min(1100px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(11, 17, 32, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+
+        /* Hero */
+
+        .hero {
+            padding: 110px 0 90px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            color: var(--white);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.08;
+            letter-spacing: -0.04em;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero-subtitle {
+            margin-top: 26px;
+            max-width: 700px;
+            color: var(--muted);
+            font-size: 1.2rem;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .tag {
+            padding: 7px 13px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 0.85rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 35px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 20px;
+            border-radius: 7px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            transition: 0.2s ease;
+        }
+
+        .button-primary {
+            background: var(--primary);
+            color: #06101a;
+        }
+
+        .button-primary:hover {
+            background: var(--white);
+            color: #06101a;
+        }
+
+        .button-secondary {
+            border: 1px solid var(--border);
+            color: var(--text);
+            background: var(--surface);
+        }
+
+        .button-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+        }
+
+        .security-card {
+            width: 100%;
+            max-width: 360px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: linear-gradient(145deg, var(--surface-light), var(--surface));
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .security-card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .security-card h3 {
+            margin: 0 0 10px;
+            color: var(--white);
+        }
+
+        .security-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .security-lines {
+            margin-top: 25px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .security-line {
+            padding: 10px 12px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+
+        /* Sections */
+
+        section {
+            padding: 85px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-header {
+            max-width: 700px;
+            margin-bottom: 45px;
+        }
+
+        .section-header h2 {
+            margin: 0 0 12px;
+            color: var(--white);
+            font-size: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        /* Services */
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .service-card {
+            padding: 30px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--surface);
+            transition: 0.2s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 18px;
+        }
+
+        .service-card h3 {
+            margin: 0 0 12px;
+            color: var(--white);
+            font-size: 1.25rem;
+        }
+
+        .service-card p {
+            margin: 0 0 18px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .service-card ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .service-card li {
+            margin-bottom: 7px;
+        }
+
+        .additional-services {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-top: 22px;
+            padding: 18px 20px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .additional-services strong {
+            color: var(--text);
+            margin-right: 8px;
+        }
+
+        .additional-services span {
+            padding: 5px 9px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+        }
+
+        /* Blog */
+
+        .posts {
+            display: grid;
+            gap: 16px;
+        }
+
+        .post {
+            display: block;
+            padding: 22px 24px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            transition: 0.2s ease;
+        }
+
+        .post:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .post-title {
+            color: var(--white);
+            font-size: 1.05rem;
+            font-weight: 650;
+        }
+
+        .post-meta {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .post-tags {
+            margin-top: 8px;
+            color: var(--green);
+            font-size: 0.78rem;
+        }
+
+        .view-all {
+            margin-top: 25px;
+        }
+
+        /* Categories */
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .category {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        .category:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Project */
+
+        .project {
+            padding: 35px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--surface);
+        }
+
+        .project h3 {
+            margin-top: 0;
+            color: var(--white);
+            font-size: 1.5rem;
+        }
+
+        .project p {
+            color: var(--muted);
+        }
+
+        .project ul {
+            padding-left: 20px;
+            color: var(--muted);
+        }
+
+        .project-quote {
+            margin-top: 25px;
+            padding-left: 18px;
+            border-left: 3px solid var(--primary);
+            color: var(--text);
+            font-style: italic;
+        }
+
+        /* Contact */
+
+        .contact {
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .contact h2 {
+            margin: 0 0 15px;
+            color: var(--white);
+            font-size: 2.3rem;
+        }
+
+        .contact p {
+            max-width: 650px;
+            margin: 0 auto 30px;
+            color: var(--muted);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .social-link {
+            padding: 10px 18px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            color: var(--text);
+            background: var(--surface);
+        }
+
+        .social-link:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Footer */
+
+        footer {
+            padding: 30px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 800px) {
+            .hero {
+                padding: 75px 0 60px;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 45px;
+            }
+
+            .hero-visual {
+                justify-content: flex-start;
+            }
+
+            .security-card {
+                max-width: 100%;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 65px 0;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                width: min(100% - 28px, 1100px);
+            }
+
+            .hero h1 {
+                font-size: 2.7rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.05rem;
+            }
+
+            .project {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="container nav-inner">
+            <a href="/" class="nav-logo">Dhananjay Bhujbal</a>
+            <div class="nav-links">
+                <a href="#services">Services</a>
+                <a href="#posts">Blog</a>
+                <a href="#project">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+    <header class="hero" id="about">
+        <div class="container hero-grid">
+            <div>
+                <div class="eyebrow">Fractional Security Engineering</div>
+                <h1>Helping you build <span>secure systems.</span></h1>
+                <p class="hero-subtitle">
+                    I help early-stage startups and engineering teams solve security problems when they need
+                    security expertise but don't need a full-time security team.
+                </p>
+                <div class="hero-tags">
+                    <span class="tag">AWS Cloud Security</span>
+                    <span class="tag">Container Security</span>
+                    <span class="tag">AI / LLM Security</span>
+                    <span class="tag">Security Engineering</span>
+                </div>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="#services"> Explore Services </a>
+                    <a class="button button-secondary" href="#contact"> Let's Talk </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="security-card">
+                    <div class="security-card-icon">🛡️</div>
+                    <h3>On-Demand Security Engineering</h3>
+                    <p>
+                        Practical security support for specific projects, assessments, POCs, implementations, and
+                        security gaps.
+                    </p>
+                    <div class="security-lines">
+                        <div class="security-line">☁️ AWS Security Reviews & Hardening</div>
+                        <div class="security-line">🐳 Kubernetes & Runtime Security</div>
+                        <div class="security-line">🤖 LLM Red Teaming & Guardrails</div>
+                        <div class="security-line">⚙️ Security Automation & POCs</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>🛡️ What I Can Help You With</h2>
+                <p>
+                    Security engineering support for startups and engineering teams that need practical help without
+                    building a full-time security team.
+                </p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">☁️</div>
+
+                    <h3>AWS Cloud Security</h3>
+
+                    <p>
+                        Review and improve the security of your AWS environment, from architecture and IAM to
+                        logging, detection, and encryption.
+                    </p>
+
+                    <ul>
+                        <li>AWS security architecture reviews</li>
+                        <li>IAM & least privilege</li>
+                        <li>KMS & encryption</li>
+                        <li>CloudTrail, GuardDuty & Config</li>
+                        <li>Security hardening</li>
+                        <li>Security POCs & implementation</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🐳</div>
+
+                    <h3>Container Security</h3>
+
+                    <p>
+                        Help secure Docker and Kubernetes environments across the development pipeline and runtime.
+                    </p>
+
+                    <ul>
+                        <li>Docker & Kubernetes security</li>
+                        <li>Runtime security</li>
+                        <li>DevSecOps</li>
+                        <li>Container vulnerability management</li>
+                        <li>RBAC & network security</li>
+                        <li>Supply-chain security</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+
+                    <h3>AI / LLM Security</h3>
+
+                    <p>
+                        Assess and strengthen AI applications against common LLM-specific threats and abuse cases.
+                    </p>
+
+                    <ul>
+                        <li>LLM security assessments</li>
+                        <li>LLM red teaming</li>
+                        <li>Prompt injection testing</li>
+                        <li>RAG security</li>
+                        <li>AI security architecture</li>
+                        <li>Guardrails & mitigations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="additional-services">
+                <strong>What Else I Offer</strong>
+
+                <span>Security Automations (Python & Bash)</span>
+                <span>Suricata IDS / IPS</span>
+                <span>Security tooling integration</span>
+                <span>Security POCs</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="posts">
+        <div class="container">
+            <div class="section-header">
+                <h2> 📝 Blog </h2>
+                <h3>Recent Posts</h3>
+            </div>
+
+            <div class="posts">
+                <a class="post" href="./posts/Cloud-Security/10-08-2026-secure-aws-architecture-mental-map.md">
+                    <div class="post-title">Secure AWS Architecture: A Mental Map for Real-World Scenarios</div>
+
+                    <div class="post-meta">August 10, 2026</div>
+
+                    <div class="post-tags">#AWS &nbsp; #CloudSecurity &nbsp; #AWSArchitecture</div>
+                </a>
+
+                <a class="post" href="./posts/Container-Security/20-06-2026-kubecon-cloudnativecon-mumbai.md">
+                    <div class="post-title">KubeCon + CloudNativeCon India 2026: Notes and Learnings</div>
+
+                    <div class="post-meta">June 20, 2026</div>
+
+                    <div class="post-tags">#Kubernetes &nbsp; #CloudNative &nbsp; #ContainerSecurity</div>
+                </a>
+
+                <a class="post" href="./posts/Labs/01-05-2026-Dependency-Confusion-Attack-Simulation.md">
+                    <div class="post-title">Attack Simulation — Dependency Confusion Attack</div>
+
+                    <div class="post-meta">May 1, 2026</div>
+
+                    <div class="post-tags">#SupplyChainSecurity &nbsp; #AppSec &nbsp; #AttackSimulation</div>
+                </a>
+
+                <a class="post" href="./posts/Security-Engineering/26-04-2026-State-Of-Quantum-Cryptography.md">
+                    <div class="post-title">Post-Quantum Cryptography: Where We Stand Today</div>
+
+                    <div class="post-meta">April 26, 2026</div>
+
+                    <div class="post-tags">#PostQuantum &nbsp; #Cryptography &nbsp; #SecurityEngineering</div>
+                </a>
+
+                <a class="post" href="./posts/AI-Security/19-04-2026-secure-ai-architecture.md">
+                    <div class="post-title">
+                        Secure AI Architecture: Mapping Security Controls Across LLM Systems
+                    </div>
+
+                    <div class="post-meta">April 19, 2026</div>
+
+                    <div class="post-tags">#AISecurity &nbsp; #LLMSecurity &nbsp; #AppSec</div>
+                </a>
+
+                <a class="post" href="./posts/Supply-Chain-Security/15-04-2026-dependency-confusion-attack.md">
+                    <div class="post-title">Dependency Confusion Attack — Deep Dive & Attack Techniques</div>
+
+                    <div class="post-meta">April 15, 2026</div>
+
+                    <div class="post-tags">#SupplyChainSecurity &nbsp; #AttackTechnique &nbsp; #DevSecOps</div>
+                </a>
+
+                <a class="post" href="./posts/Supply-Chain-Security/12-04-2026-supply-chain-security.md">
+                    <div class="post-title">
+                        Your application is only as secure as the weakest link in its supply chain.
+                    </div>
+
+                    <div class="post-meta">April 12, 2026</div>
+
+                    <div class="post-tags">#SupplyChainSecurity &nbsp; #AppSec &nbsp; #DevSecOps</div>
+                </a>
+            </div>
+
+            <div class="view-all">
+                <a href="./posts/"> → Explore all posts </a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <h2>🧭 Topics</h2>
+
+                <p>Areas I explore through writing, research, and hands-on projects.</p>
+            </div>
+
+            <div class="categories">
+                <a class="category" href="./posts/AI-Security/"> 🤖 AI Security </a>
+
+                <a class="category" href="./posts/Application-Security/"> 🔐 Application Security </a>
+
+                <a class="category" href="./posts/Security-Engineering/"> ⚙️ Security Engineering </a>
+
+                <a class="category" href="./posts/Cloud-Security/"> ☁️ Cloud Security </a>
+
+                <a class="category" href="./posts/Container-Security/"> 🐳 Container Security </a>
+
+                <a class="category" href="./posts/Supply-Chain-Security/"> 📦 Supply Chain Security </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="project">
+        <div class="container">
+            <div class="section-header">
+                <h2>🧪 Featured Project</h2>
+            </div>
+
+            <div class="project">
+                <h3>🔐 PostQ — Post-Quantum Risk Assessment Tool</h3>
+
+                <p>
+                    <a href="https://github.com/Dhananjay-B/PostQ"> PostQ </a>
+                    is a tool for discovering and inventorying cryptographic assets across a network, including
+                    TLS/HTTPS endpoints, SSH services, and email infrastructure.
+                </p>
+
+                <p>
+                    It focuses on evaluating these assets from a
+                    <strong>post-quantum risk perspective</strong>, helping identify:
+                </p>
+
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li>Quantum-vulnerable cryptographic algorithms</li>
+
+                    <li>Weak or outdated configurations</li>
+
+                    <li>Overall cryptographic exposure across systems</li>
                 </ul>
-            </nav>
-        </header>
 
-        <main>
-            <section id="home">
-                <h2>Home</h2>
-                <p>This is the home section of my website.</p>
-            </section>
+                <p>
+                    The goal is to move beyond simple scanning and provide a
+                    <strong>policy-driven risk assessment layer</strong>
+                    for post-quantum readiness.
+                </p>
 
-            <section id="about">
-                <h2>About</h2>
-                <p>This section contains information about me.</p>
-            </section>
+                <div class="project-quote">
+                    Not just discovery — but understanding cryptographic risk in a post-quantum world.
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <section id="contact">
-                <h2>Contact</h2>
-                <p>You can contact me at
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>📬 Connect</h2>
+
+            <p>
+                Interested in one of my services? Feel free to connect with me.
+            </p>
+
+            <div class="social-links">
+
+                <a class="social-link" href="mailto:contact.onemorelens@gmail.com">
+                    ✉️ Email
+                </a>
+
+                <a class="social-link" href="tel:+919307189077">
+                    📞 Phone
+                </a>
+
+                <a class="social-link" href="https://www.linkedin.com/in/dhananjay-bhujbal-852260202/">
+                    LinkedIn
+                </a>
+
+                <a class="social-link" href="https://github.com/Dhananjay-B">
+                    GitHub
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">© 2026 Dhananjay Bhujbal · Security Engineering</div>
+    </footer>
+</body>
+
 </html>
